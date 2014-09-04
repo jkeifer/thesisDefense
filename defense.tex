@@ -11,12 +11,20 @@
 % Description    : HSRM beamer theme demonstration. Also includes a short 
 %                  Tutorial regarding the beamer class.
 
-\documentclass[]{beamer}
+\documentclass[compress]{beamer}
+
+% if handout option for beamer, make 4-up landscape
+\mode<handout>{%
+  \usepackage{pgfpages}%
+  \pgfpagesuselayout{4 on 1}[letterpaper,border shrink=5mm, landscape]}
+
 %--------------------------------------------------------------------------
 % Common packages
 %--------------------------------------------------------------------------
 \usepackage[american]{babel}
 \usepackage{datetime}
+
+\usepackage[overload]{textcase}
 
 \usepackage{graphicx}
 \usepackage{multicol}
@@ -54,6 +62,8 @@ xrightmargin=0.5em
 \usepackage{tikz}
 \usetikzlibrary{mindmap,backgrounds}
 
+\usepackage[overload]{textcase}
+
 %--------------------------------------------------------------------------
 % General presentation settings
 %--------------------------------------------------------------------------
@@ -75,29 +85,111 @@ xrightmargin=0.5em
 
 \maketitle
 
-%\begin{frame}[plain]
-%	\titlepage
-%\end{frame}
-
-%--------------------------------------------------------------------------
-% Table of contents
-%--------------------------------------------------------------------------
-%\section*{Gliederung}
-%\begin{frame}{Gliederung}
-%	% hideallsubsections ist empfehlenswert für längere Präsentationen
-%	\tableofcontents[hideallsubsections]
-%\end{frame}
 
 %--------------------------------------------------------------------------
 % Content
 %--------------------------------------------------------------------------
-\section{Einleitung}
 
-\begin{frame}{Was ist Beamer?}
-	Die Beamer Klassen für \LaTeX\ dienen zur Erstellung von Präsentationen, welche mit einem Beamer vorgeführt werden sollen. Das Textsatzsystem erzeugt dazu PDF Dateien, die von einer großen Anzahl an Programmen gezeigt werden können.
-	
-	Das hier vorgestellte Theme für Beamer macht die Erstellung von Folien entsprechend dem Corporate Design der Hochschule {\Medium RheinMain} (Grundkenntnisse in \LaTeX\ vorausgesetzt) zu einem Kinderspiel.
+\section*{Research Questions}
+
+\begin{frame}{Research Questions}
+
+Can I...
+
+\begin{itemize}
+  \item<1-> develop a phenological classification toolset?
+  \item<2-> extract crop signatures from Kansas data?
+  \item<3-> classify an Argentina study area with the Kansas signatures?
+\end{itemize}
 \end{frame}
+
+
+%--------------------------------------------------------------------------
+% Table of contents
+%--------------------------------------------------------------------------
+\section*{Contents}
+\begin{frame}{Contents}
+	% hideallsubsections ist empfehlenswert für längere Präsentationen
+	\tableofcontents[hideallsubsections]
+\end{frame}
+
+
+%--------------------------------------------------------------------------
+% Content
+%--------------------------------------------------------------------------
+
+% BACKGROUND
+\section{Background}
+
+\subsection{Defrestation in Argentina}
+\begin{frame}{Deforestation in Argentina}
+	
+\end{frame}
+
+
+\subsection{Soy and its Effects}
+\begin{frame}{Soy and its Effects}
+	
+\end{frame}
+
+
+\subsection{VIs and Time Series Images}
+\begin{frame}{VI\NoCaseChange{s} and Time Series Images}
+	
+\end{frame}
+
+
+\subsection{Phenological Classification}
+\begin{frame}{Phenological Classification}
+	
+\end{frame}
+
+
+% STUDY AREAS
+\section{Study Areas}
+
+\subsection{Kansas}
+\begin{frame}{}
+	
+\end{frame}
+
+
+\subsection{Pellegrini}
+\begin{frame}{Department of Pellegrini}
+	
+\end{frame}
+
+
+% DATA AND METHODS
+\section{Data and Methods}
+
+\subsection{Datasets}
+
+
+\subsection{Pellegrini Data Collection}
+
+
+\subsection{Data Processing}
+
+
+% RESULTS AND DISCUSSION
+\section{Results and Discussion}
+
+\subsection{Pellegrini Data}
+
+\subsection{Elminating Kansas Mixels}
+
+\subsection{Kansas Crop Signatures}
+
+\subsection{Kansas Verification}
+
+\subsection{Argentina Classification}
+
+
+% CONCLUSION
+\section{Concluding Remarks}
+
+
 
 %\begin{frame}{Systemvoraussetzungen}
 %	Um erfolgreich Präsentationen mit diesem Theme erstellen zu können, sind folgende Voraussetzungen vom System zu erfüllen:

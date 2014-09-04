@@ -31,11 +31,85 @@
 \mode<presentation>
 
 %---------------------------------------------------------------------
+% Fonts
+%---------------------------------------------------------------------
+
+% General
+
+% Declare fontfamilys
+\if@serifAll%
+% Only serif font option
+\usepackage{fontspec}%	
+\usefonttheme[onlymath]{serif}%
+\newfontfamily\Light{SD Georgia Light}%
+\newfontfamily\Book{Georgia-Bold}%
+\newfontfamily\Medium{Georgia}%
+\newfontfamily\cSans{FlamaLight}%{Myriad Pro}
+\newfontfamily\cSansBold{FlamaBook}
+\setsansfont{SD Georgia Light}%
+\else%
+    \if@doNoFlama%
+    	% Sans serif math option
+    	\if@doSans%
+    		% sans serif math %
+    		\usepackage[no-math]{fontspec}%	
+    		\setmainfont{Arial}%
+    	\else%
+    		% serif math %
+    		\usepackage{fontspec}%	
+    		\usefonttheme[onlymath]{serif}%
+    	\fi%
+    	\newfontfamily\Light{Arial}%
+    	\newfontfamily\Book{Arial-Bold}%
+    	\newfontfamily\Medium{Arial-Bold}%
+    	\setsansfont{Arial}%
+    \else%
+    	% Sans serif math option
+    	\if@doSans%
+    		\usepackage[no-math]{fontspec}%	
+    		\setmainfont{FlamaLight}%
+    	\else%
+    		\usepackage{fontspec}%	
+    		\usefonttheme[onlymath]{serif}%
+    	\fi%
+    	\newfontfamily\Light{FlamaLight}%
+    	\newfontfamily\Book{FlamaBook}%
+    	\newfontfamily\Medium{FlamaMedium}%
+    	\setsansfont{FlamaLight}%
+    \fi%
+\fi%
+
+\renewcommand\UrlFont{\Medium}
+% Miniframes
+\setbeamerfont{section in head/foot}{family=\cSans}
+% Titlepage
+\setbeamerfont{title}{family=\Medium,size=\fontsize{14}{20}}
+\setbeamerfont{subtitle}{family=\Light,size=\fontsize{10}{14}}
+\setbeamerfont{date}{size=\fontsize{8}{10}}
+\setbeamerfont{author}{size=\fontsize{12}{15}}
+\setbeamerfont{institute}{size=\fontsize{8}{10}}
+% Section
+\setbeamerfont{section title}{family=\cSans,size=\LARGE}
+% Content
+\setbeamerfont{frametitle}{family=\cSans,size=\large}
+\setbeamerfont{copyright text}{family=\Light,size=\tiny}
+\setbeamerfont{block title}{family=\Book,size=\large}
+\setbeamerfont{block title alerted}{family=\Book,size=\large}
+\setbeamerfont{alerted text}{family=\Medium}
+% Captions
+\setbeamerfont{caption name}{family=\Book}
+% Other
+\setbeamerfont{cSans}{family=\cSans}
+\setbeamerfont{cSansBold}{family=\cSansBold}
+
+
+%---------------------------------------------------------------------
 % TOC
 %---------------------------------------------------------------------
-\useoutertheme[subsection=false,shadow]{miniframes}
+\useoutertheme[subsection=false,shadow]{miniframes}  % MINIFRAMES for top
 \setbeamertemplate{section in toc}[sections numbered]
 \setbeamertemplate{subsection in toc}[subsections numbered]
+
 
 %---------------------------------------------------------------------
 % custom commands
@@ -44,12 +118,13 @@
 \newcommand{\quoted}[1]{›#1‹}
 \newcommand{\doublequoted}[1]{»#1«}
 
+
 %---------------------------------------------------------------------
 % Itemize
 %---------------------------------------------------------------------
-\setbeamertemplate{itemize item}{\rightTextArrow}
-\setbeamertemplate{itemize subitem}{\rightTextArrow}
-\setbeamertemplate{itemize subsubitem}{\rightTextArrow}
+\setbeamertemplate{itemize item}[triangle]
+\setbeamertemplate{itemize subitem}[triangle]
+\setbeamertemplate{itemize subsubitem}[triangle]
 
 \setlength{\parskip}{0.5em}
 
@@ -110,71 +185,6 @@
 \setbeamercolor{page number in head/foot}{fg=hsrmWarmGreyDark}
 
 %---------------------------------------------------------------------
-% Fonts
-%---------------------------------------------------------------------
-
-% General
-
-% Declare fontfamilys
-\if@serifAll%
-% Only serif font option
-\usepackage{fontspec}%	
-\usefonttheme[onlymath]{serif}%
-\newfontfamily\Light{SD Georgia Light}%
-\newfontfamily\Book{Georgia-Bold}%
-\newfontfamily\Medium{Georgia}%
-\setsansfont{SD Georgia Light}%
-\else%
-    \if@doNoFlama%
-    	% Sans serif math option
-    	\if@doSans%
-    		% sans serif math %
-    		\usepackage[no-math]{fontspec}%	
-    		\setmainfont{Arial}%
-    	\else%
-    		% serif math %
-    		\usepackage{fontspec}%	
-    		\usefonttheme[onlymath]{serif}%
-    	\fi%
-    	\newfontfamily\Light{Arial}%
-    	\newfontfamily\Book{Arial-Bold}%
-    	\newfontfamily\Medium{Arial-Bold}%
-    	\setsansfont{Arial}%
-    \else%
-    	% Sans serif math option
-    	\if@doSans%
-    		\usepackage[no-math]{fontspec}%	
-    		\setmainfont{FlamaLight}%
-    	\else%
-    		\usepackage{fontspec}%	
-    		\usefonttheme[onlymath]{serif}%
-    	\fi%
-    	\newfontfamily\Light{FlamaLight}%
-    	\newfontfamily\Book{FlamaBook}%
-    	\newfontfamily\Medium{FlamaMedium}%
-    	\setsansfont{FlamaLight}%
-    \fi%
-\fi%
-
-\renewcommand\UrlFont{\Medium}
-% Titlepage
-\setbeamerfont{title}{family=\Light,size=\fontsize{14}{20}}
-\setbeamerfont{subtitle}{family=\Light,size=\fontsize{10}{14}}
-\setbeamerfont{date}{size=\fontsize{8}{10}}
-\setbeamerfont{author}{size=\fontsize{12}{15}}
-\setbeamerfont{institute}{size=\fontsize{8}{10}}
-% Section
-\setbeamerfont{section title}{size=\LARGE}
-% Content
-\setbeamerfont{frametitle}{family=\Light,size=\large}
-\setbeamerfont{copyright text}{family=\Light,size=\tiny}
-\setbeamerfont{block title}{family=\Book,size=\large}
-\setbeamerfont{block title alerted}{family=\Book,size=\large}
-\setbeamerfont{alerted text}{family=\Medium}
-% Captions
-\setbeamerfont{caption name}{family=\Book}
-
-%---------------------------------------------------------------------
 % Titlepage
 %---------------------------------------------------------------------
 
@@ -186,32 +196,32 @@
 	% Add background to title page
 	\AddToShipoutPictureFG*{\includegraphics[width=\paperwidth]{background.pdf}}
 	\noindent\begin{minipage}[b][\paperheight]{0.7\textwidth}
-	\vspace*{5mm}
+	\vspace*{10mm}
 	\ifx\inserttitle\@empty%
 	\else%
 		%{\usebeamerfont{title}\usebeamercolor[fg]{title}\MakeUppercase{\inserttitle}\par}%
-		{\usebeamerfont{title}\usebeamercolor[fg]{title}\raggedright\inserttitle\par}%
+		{\usebeamerfont{title}\raggedright\inserttitle\par}%
 	\fi%
 	\ifx\insertsubtitle\@empty%
 	\else%
-		{\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+		{\usebeamerfont{subtitle}\insertsubtitle\par}%
 	\fi%
 	\vspace*{5mm}
 	\ifx\insertdate\@empty%
 	\else%
-		{\usebeamerfont{date}\usebeamercolor[fg]{date}\insertdate\par}%
+		{\usebeamerfont{date}\insertdate\par}%
 	\fi% 
 	
 	\vfill
 	
 	\ifx\insertauthor\@empty%
 	\else%
-		{\usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor\par}%
+		{\usebeamerfont{author}\insertauthor\par}%
 	\fi%
 	\ifx\insertinstitut\@empty%
 	\else%
 		\vspace*{1mm}
-		{\usebeamerfont{institute}\usebeamercolor[fg]{institute}\insertinstitute\par}%
+		{\usebeamerfont{institute}\insertinstitute\par}%
 	\fi% 
 	\vspace*{2mm}
     \includegraphics[height=8mm]{./logo}%\par
