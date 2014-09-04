@@ -86,7 +86,7 @@
 \setbeamerfont{title}{family=\Medium,size=\fontsize{14}{20}}
 \setbeamerfont{subtitle}{family=\Light,size=\fontsize{10}{14}}
 \setbeamerfont{date}{size=\fontsize{8}{10}}
-\setbeamerfont{author}{size=\fontsize{12}{15}}
+\setbeamerfont{author}{size=\fontsize{11}{12}}
 \setbeamerfont{institute}{size=\fontsize{8}{10}}
 % Section
 \setbeamerfont{section title}{family=\cSans,size=\LARGE}
@@ -220,7 +220,7 @@
 	\fi%
 	\ifx\insertinstitut\@empty%
 	\else%
-		\vspace*{1mm}
+		%\vspace*{1mm}
 		{\usebeamerfont{institute}\insertinstitute\par}%
 	\fi% 
 	\vspace*{2mm}
@@ -247,6 +247,7 @@
 \begingroup
 \setbeamercolor{background canvas}{bg=hsrmWarmGreyDark}
 \begin{frame}[plain]
+\AddToShipoutPictureFG*{\includegraphics[width=\paperwidth]{background2.pdf}}
 \centering
 \vfill\usebeamerfont{section title}\textcolor{white}{\insertsectionHEAD}\vfill
 \end{frame}
