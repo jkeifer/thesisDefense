@@ -36,7 +36,7 @@
 
 % General
 
-% Declare fontfamilys
+% Declare font families
 \if@serifAll%
 % Only serif font option
 \usepackage{fontspec}%	
@@ -44,9 +44,17 @@
 \newfontfamily\Light{SD Georgia Light}%
 \newfontfamily\Book{Georgia-Bold}%
 \newfontfamily\Medium{Georgia}%
-\newfontfamily\cSans{FlamaLight}%{Myriad Pro}
-\newfontfamily\cSansBold{FlamaBook}
+\newfontfamily\cSans{FlamaLight}%
+\newfontfamily\cSansBold{FlamaBook}%
 \setsansfont{SD Georgia Light}%
+%
+%\newfontfamily\Light{Baskerville}%
+%\newfontfamily\Book{Baskerville-Bold}%
+%\newfontfamily\Medium{Baskerville-SemiBold}%
+%\newfontfamily\cSans{FlamaLight}%
+%\newfontfamily\cSansBold{FlamaBook}%
+%\setsansfont{Baskerville}%
+%
 \else%
     \if@doNoFlama%
     	% Sans serif math option
@@ -154,9 +162,13 @@
 \definecolor{hsrmSec3Comp}{rgb}{1,0.509803922,0}
 \definecolor{hsrmSec3CompDark}{rgb}{0.666666667,0.333333333,0}
 
+% My Colors
+\definecolor{lightgreenish}{rgb}{0.8,0.9,0.5}
+\definecolor{darkgreenish}{rgb}{0.45,0.525,0.275} 
+
 % General
 \setbeamercolor{normal text}{fg=hsrmWarmGreyDark}
-\setbeamercolor{structure}{fg=hsrmWarmGreyDark}
+\setbeamercolor{structure}{fg=white, bg=darkgreenish}  % footline
 \setbeamercolor{alerted text}{fg=hsrmRed}
 \setbeamercolor{example text}{fg=white}
 \setbeamercolor{copyright text}{fg=hsrmWarmGreyLight}
@@ -271,7 +283,7 @@
 \usenavigationsymbolstemplate{}
 \setbeamertemplate{footline}
 {%
-\begin{beamercolorbox}[wd=\textwidth,ht=3ex,dp=1.5ex,leftskip=0.3cm,rightskip=0.3cm]{structure}%
+\begin{beamercolorbox}[wd=\textwidth,ht=2.5ex,dp=1.5ex,leftskip=0.3cm,rightskip=0.3cm]{structure}%
 \hfill\usebeamerfont{page number in head/foot}%
 \insertframenumber%
 \end{beamercolorbox}%

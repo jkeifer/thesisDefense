@@ -21,11 +21,16 @@
 %--------------------------------------------------------------------------
 % Common packages
 %--------------------------------------------------------------------------
-\usepackage[american]{babel}
+\usepackage[australian, american]{babel}
 \usepackage{datetime}
+\setdefaultdate{\dateaustralian}
 
-\usepackage[overload]{textcase}
+\usepackage[overload]{textcase} %provides capitalization protection via \NoCaseChanges tag
 
+\usepackage{pgf}  % for plots
+\usepackage{setspace}
+
+%% Default Packages (Remove if not needed)
 \usepackage{graphicx}
 \usepackage{multicol}
 % Erweiterte Tabellenfunktionen
@@ -110,7 +115,7 @@ Can I...
 \section*{Contents}
 \begin{frame}{Contents}
 	% hideallsubsections ist empfehlenswert für längere Präsentationen
-	\tableofcontents[hideallsubsections]
+	\singlespace\tableofcontents[hideallsubsections]
 \end{frame}
 
 
