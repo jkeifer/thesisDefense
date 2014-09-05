@@ -29,4 +29,7 @@
 *.vrb
 *.xdy
 *.tdo
+*.bcf
+*.nav
+*.run.xml
 .DS_Store

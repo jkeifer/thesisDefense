@@ -11,7 +11,7 @@
 % Description    : HSRM beamer theme demonstration. Also includes a short 
 %                  Tutorial regarding the beamer class.
 
-\documentclass[compress]{beamer}
+\documentclass[draft,compress]{beamer}
 
 % if handout option for beamer, make 4-up landscape
 \mode<handout>{%
@@ -30,12 +30,18 @@
 \usepackage{pgf}  % for plots
 \usepackage{setspace}
 
-%% Default Packages (Remove if not needed)
-\usepackage{graphicx}
-\usepackage{multicol}
-% Erweiterte Tabellenfunktionen
+% Reference Settings
+\input{bibsettings.tex}
+
+% Tables
+\usepackage{tabu}
 \usepackage{tabularx,ragged2e}
 \usepackage{booktabs}
+\usepackage{multicol}
+
+%% Default Packages (Remove if not needed)
+\usepackage{graphicx}
+
 % Listingserweiterung
 \usepackage{listings}
 \lstset{ %
@@ -61,7 +67,7 @@ xrightmargin=0.5em
 %--------------------------------------------------------------------------
 % Load theme
 %--------------------------------------------------------------------------
-\usetheme[seriffonts]{hsrm}
+\usetheme[seriffonts,onlysubsections]{hsrm}
 
 \usepackage{dtklogos} % must be loaded after theme
 \usepackage{tikz}
@@ -112,8 +118,8 @@ Can I...
 %--------------------------------------------------------------------------
 % Table of contents
 %--------------------------------------------------------------------------
-\section*{Contents}
-\begin{frame}{Contents}
+\section*{Outline}
+\begin{frame}{Outline}
 	% hideallsubsections ist empfehlenswert für längere Präsentationen
 	\singlespace\tableofcontents[hideallsubsections]
 \end{frame}
@@ -126,27 +132,174 @@ Can I...
 % BACKGROUND
 \section{Background}
 
-\subsection{Defrestation in Argentina}
+\subsection{Deforestation in Argentina}
 \begin{frame}{Deforestation in Argentina}
-	
+\begin{itemize}
+  \item<2-> 1998 to 2002: 940,000 ha deforested
+  \item<3-> \Lightit~Ley de Bosques \Light~passed in 2007
+  \begin{itemize}
+    \item<4-> Classified red, yellow, and green areas
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Deforestation in Argentina}
+
+\begin{table}
+  \centering
+  \caption{Deforestation in Argentina, 2006 to 2011}
+  \label{table:deforestationAR}
+  \begin{tabu}{X[1,c]X[0.8,c]}
+  \toprule
+  \Book{Time Period} & \Book{Hectares Deforested} \\
+  \midrule
+  2006 to \Lightit~Ley de Bosques \Light~(2007) & 573,296 \\
+  Ley de Bosques to OTBN (2009) & 473,001 \\
+  OTBN to 2011 & 459,108 \\
+  \midrule
+  \Book{Total} & 1,505,405 \\
+  \bottomrule
+  \end{tabu}
+\end{table}
+
+\end{frame}
+
+\begin{frame}{Deforestation in Argentina}
+\begin{itemize}
+  \item Deforestation has remained extremely high
+  \item The effect of the the \Lightit~Ley de Bosques \Light~has been questioned
+\end{itemize}
 \end{frame}
 
 
 \subsection{Soy and its Effects}
 \begin{frame}{Soy and its Effects}
-	
+\begin{itemize}
+  \item Argentina's soybean cultivation has continually increased
+  \begin{itemize}
+    \item 5 million ha in 1993 to 19 million ha in 2011
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Soy and its Effects}
+\begin{itemize}
+  \item<1-> Soy production highly mechanized
+  \item<2-> Over 99 percent of Argentine soy is genetically modified
+  \begin{itemize}
+    \item<2-> Resistance to glyphosate = heavy pesticide use
+  \end{itemize}
+  %\vspace{\baselineskip}
+  \item<3-> \alert<4->{Capital requirements cut out small producers}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Soy and its Effects}
+\begin{itemize}
+  \item<1-> Prevailing perception that soy drives deforestation
+  \item<2-> Deforestation research has neglected to analyze specific crop cover
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Goal 1}
+\begingroup\setbeamercolor{block title}{bg=hsrmSec2Dark}\setbeamercolor{block body}{bg=hsrmSec2}\begin{block}{Goal}  Develop a crop mapping toolset which is efficient\\and economical\end{block}\endgroup
+\end{frame}
+
+\begin{frame}{Goal 1}
+Why?
+
+\begin{itemize}
+  \item<1-> Better understanding of the dynamics of deforestation
+  \item<2-> More effective land management policies
+\end{itemize}
 \end{frame}
 
 
-\subsection{VIs and Time Series Images}
-\begin{frame}{VI\NoCaseChange{s} and Time Series Images}
-	
+
+\subsection{Vegetation Indicies}
+\begin{frame}{Vegetation Indicies}\begin{alertblock}{Problem}  Must be able to classify crops by type\end{alertblock}
+\begin{itemize}
+  \item<2-> A Vegetation Index (VI) can help with crop identification
+  \begin{itemize}
+    \item<3-> Normalized Difference Vegetation Index (NDVI)
+    \item<3-> Enhanced Vegetation Index (EVI)
+  \end{itemize} 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Vegetation Indicies}
+\begingroup\setbeamercolor{block title}{bg=hsrmSec2Dark}\setbeamercolor{block body}{bg=hsrmSec2}\begin{block}{NDVI}  \begin{equation*}
+    NDVI = \frac{\rho~_{NIR} - \rho~_{red}}{\rho~_{NIR} + \rho~_{red}}
+  \end{equation*}\end{block}\endgroup
+\end{frame}
+
+\begin{frame}{Vegetation Indicies}
+Thus, NDVI 
+\begin{itemize}
+  \item<1-> is a ratioing index
+  \item<2-> minimizes multiplicative noise
+  \item<3-> has issues with non-linearity and additive noise
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Vegetation Indicies}
+\begingroup\setbeamercolor{block title}{bg=hsrmSec2Dark}\setbeamercolor{block body}{bg=hsrmSec2}\begin{block}{EVI}  \begin{equation*}
+    EVI = G\frac{\rho~_{NIR} - \rho~_{red}}{\rho~_{NIR} +  C_1\times\rho~_{red} - C_2 \times \rho~_{blue} + L}
+  \end{equation*}\end{block}\endgroup
+\end{frame}
+  
+\begin{frame}{Vegetation Indicies}
+\begingroup\setbeamercolor{block title}{bg=hsrmSec2Dark}\setbeamercolor{block body}{bg=hsrmSec2}\begin{block}{MODIS EVI}  \begin{equation*}
+    EVI = 2.5\frac{\rho~_{NIR} - \rho~_{red}}{\rho~_{NIR} +  6.0\times\rho~_{red} - 7.5 \times \rho~_{blue} + 1.0}
+  \end{equation*}\end{block}\endgroup
+\end{frame}
+
+\begin{frame}{Vegetation Indicies}
+With EVI 
+\begin{itemize}
+  \item<1-> input bands require atmospheric correction
+  \item<2-> no saturate in high biomass
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Vegetation Indicies}
+Need to be able to determine crop types
+\begin{enumerate}
+  \item<2-> What if two crops have similar VI values on a single date?
+  \item<3-> How to determine the VI values of a crop in an image?
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Vegetation Indicies}
+What if two crops have similar VI values on a single date?
+\begin{itemize}
+  \item<2-> Use imagery from multiple dates to maximize the number of pixels that can be clearly classified.
+\end{itemize}
+\end{frame}
+
+%Go into wardlow et al, MODIS sensor on the Terra and Aqua satellites
+
+\subsection{Phenological Classification}
+\begin{frame}{Phenological Classification}
+
+\begin{figure}
+  \centering
+  \includegraphicscopyright[width=0.85\linewidth]{Graphics/wardlowCropSignatures.png}{\autocite[From][]{wardlow2005state-level}}
+\end{figure}
+
 \end{frame}
 
 
 \subsection{Phenological Classification}
 \begin{frame}{Phenological Classification}
-	
+How to determine the VI values of a crop in an image?
+\begin{itemize}
+  \item<2-> Traditional approaches all require training sites.
+\end{itemize}
+\vspace{\baselineskip}
+\centering
+\pause\pause~\Book~But what if you don’t have training sites?
 \end{frame}
 
 

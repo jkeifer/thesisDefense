@@ -1,0 +1,111 @@
+% *************** Set Biblatex Style and Options ***************
+
+\usepackage{csquotes}
+\usepackage[authordate-trad, backend=biber, firstinits=true, maxcitenames=3, isbn=false, doi=false, eprint=false, shorthandfull, sorting=nyt, sortcites=true, ibidtracker=false, abbreviate=true]{biblatex-chicago}
+\addbibresource[datatype=bibtex]{thesis.bib}
+
+%Check for page range in postnotes to use a colon not comma
+\renewcommand{\postnotedelim}{\iffieldpages{postnote}{\addcolon\space}{\addcomma\space}} 
+\DeclareFieldFormat{postnote}{#1} 
+
+%Fix date format in bib -- could be moved to external .lbx file (with comments; change DefineBib... to DeclareBib...)
+%%%%\DeclareLanguageMapping{american}{american-dmy}
+%%%%
+%%%%\begin{filecontents}{american-dmy.lbx}
+%%%%\ProvidesFile{american-dmy.lbx}[american localisation with dmydate format for long dates]
+%%%%
+%%%%\InheritBibliographyExtras{american}
+\DefineBibliographyExtras{american}{%
+  \protected\def\mkbibdatelong#1#2#3{%
+    \iffieldundef{#3}
+      {}
+      {\stripzeros{\thefield{#3}}%
+       \iffieldundef{#2}{}{\nobreakspace}}%
+    \iffieldundef{#2}
+      {}
+      {\mkbibmonth{\thefield{#2}}%
+       \iffieldundef{#1}{}{\space}}%
+    \iffieldbibstring{#1}{\bibstring{\thefield{#1}}}{\stripzeros{\thefield{#1}}}}%
+}
+%%%%\InheritBibliographyStrings{american}
+%%%%\endinput
+%%%%\end{filecontents}
+
+% *************** Make ref links whole ref in text *****************
+%%%%\DeclareCiteCommand{\cite}
+%%%%  {\usebibmacro{prenote}}
+%%%%  {\usebibmacro{citeindex}%
+%%%%   \printtext[bibhyperref]{\usebibmacro{cite}}}
+%%%%  {\multicitedelim}
+%%%%  {\usebibmacro{postnote}}
+%%%%
+%%%%\DeclareCiteCommand*{\cite}
+%%%%  {\usebibmacro{prenote}}
+%%%%  {\usebibmacro{citeindex}%
+%%%%   \printtext[bibhyperref]{\usebibmacro{citeyear}}}
+%%%%  {\multicitedelim}
+%%%%  {\usebibmacro{postnote}}
+%%%%
+%%%%\DeclareCiteCommand{\parencite}[\mkbibparens]
+%%%%  {\usebibmacro{prenote}}
+%%%%  {\usebibmacro{citeindex}%
+%%%%    \printtext[bibhyperref]{\usebibmacro{cite}}}
+%%%%  {\multicitedelim}
+%%%%  {\usebibmacro{postnote}}
+%%%%
+%%%%\DeclareCiteCommand*{\parencite}[\mkbibparens]
+%%%%  {\usebibmacro{prenote}}
+%%%%  {\usebibmacro{citeindex}%
+%%%%    \printtext[bibhyperref]{\usebibmacro{citeyear}}}
+%%%%  {\multicitedelim}
+%%%%  {\usebibmacro{postnote}}
+%%%%
+%%%%\DeclareCiteCommand{\footcite}[\mkbibfootnote]
+%%%%  {\usebibmacro{prenote}}
+%%%%  {\usebibmacro{citeindex}%
+%%%%  \printtext[bibhyperref]{ \usebibmacro{cite}}}
+%%%%  {\multicitedelim}
+%%%%  {\usebibmacro{postnote}}
+%%%%
+%%%%\DeclareCiteCommand{\footcitetext}[\mkbibfootnotetext]
+%%%%  {\usebibmacro{prenote}}
+%%%%  {\usebibmacro{citeindex}%
+%%%%   \printtext[bibhyperref]{\usebibmacro{cite}}}
+%%%%  {\multicitedelim}
+%%%%  {\usebibmacro{postnote}}
+%%%%
+%%%%\DeclareCiteCommand{\textcite}
+%%%%  {\boolfalse{cbx:parens}}
+%%%%  {\usebibmacro{citeindex}%
+%%%%   \printtext[bibhyperref]{\usebibmacro{textcite}}}
+%%%%  {\ifbool{cbx:parens}
+%%%%     {\bibcloseparen\global\boolfalse{cbx:parens}}
+%%%%     {}%
+%%%%   \multicitedelim}
+%%%%  {\usebibmacro{textcite:postnote}}
+  
+%Set custom strings for url and date labels (available at and last accessed)
+\DefineBibliographyStrings{american}{%
+  url = {available at},
+  urlseen = {last accessed}, 
+}
+%\DeclareFieldFormat{url}{\bibstring{url}\addcolon\space\url{#1}}  % removed "Available at:" 2014-09-01
+\DeclareFieldFormat{urldate}{\mkbibparens{\bibstring{urlseen}\space{#1}}}
+
+% Set url + date appearance in bib (add doi here if needed)
+\renewbibmacro*{bib+doi+url}{%
+  \usebibmacro{url+urldate}
+  }
+  
+
+% Abbreviate edited by as eds.
+\DeclareFieldFormat{editortype}{\mkbibparens{#1}}
+  
+%Remove Quotes around titles
+\DeclareFieldFormat
+  [article,inbook,incollection,inproceedings,patent,thesis,unpublished]
+  {title}{#1\isdot}
+  
+\appto{\bibsetup}{\raggedright} %align left to prevent stretched urls (perhaps remove?)
+
+% /end bib settings

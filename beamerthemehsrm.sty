@@ -14,6 +14,9 @@
 
 \usepackage{eso-pic}
 
+\newif\if@doSubsections
+\@doSubsectionsfalse
+\DeclareOption{onlysubsections}{\@doSubsectionstrue}
 \newif\if@doSans
 \@doSansfalse
 \DeclareOption{noserifmath}{\@doSanstrue}
@@ -26,6 +29,7 @@
 \newif\if@doSectionPage
 \@doSectionPagefalse
 \DeclareOption{nosectionpages}{\@doSectionPagetrue}
+
 \ProcessOptions
 
 \mode<presentation>
@@ -43,7 +47,10 @@
 \usefonttheme[onlymath]{serif}%
 \newfontfamily\Light{SD Georgia Light}%
 \newfontfamily\Book{Georgia-Bold}%
+\newfontfamily\Bookit{Georgia-BoldItalic}%
 \newfontfamily\Medium{Georgia}%
+\newfontfamily\Mediumit{Georgia-Italic}%
+\newfontfamily\Lightit{SD Georgia Light Demo Italic}%
 \newfontfamily\cSans{FlamaLight}%
 \newfontfamily\cSansBold{FlamaBook}%
 \setsansfont{SD Georgia Light}%
@@ -101,8 +108,10 @@
 % Content
 \setbeamerfont{frametitle}{family=\cSans,size=\large}
 \setbeamerfont{copyright text}{family=\Light,size=\tiny}
-\setbeamerfont{block title}{family=\Book,size=\large}
-\setbeamerfont{block title alerted}{family=\Book,size=\large}
+\setbeamerfont{block title}{family=\cSansBold,size=\large}
+\setbeamerfont{block title alerted}{family=\cSansBold,size=\large}
+\setbeamerfont{block body}{family=\cSans,size=\large}
+\setbeamerfont{block body alerted}{family=\cSans,size=\large}
 \setbeamerfont{alerted text}{family=\Medium}
 % Captions
 \setbeamerfont{caption name}{family=\Book}
@@ -115,6 +124,15 @@
 % TOC
 %---------------------------------------------------------------------
 \useoutertheme[subsection=false,shadow]{miniframes}  % MINIFRAMES for top
+
+% To suppress each frame in miniframes, just show subsections
+\if@doSubsections%
+  \usepackage{etoolbox}%
+  \patchcmd{\slideentry}{\advance\beamer@xpos by1\relax}{}{}{}%
+  \def\beamer@subsectionentry#1#2#3#4#5{\advance\beamer@xpos by1\relax}%
+\else%
+\fi%
+
 \setbeamertemplate{section in toc}[sections numbered]
 \setbeamertemplate{subsection in toc}[subsections numbered]
 
@@ -168,7 +186,9 @@
 
 % General
 \setbeamercolor{normal text}{fg=hsrmWarmGreyDark}
-\setbeamercolor{structure}{fg=white, bg=darkgreenish}  % footline
+\setbeamercolor{structure}{fg=hsrmWarmGreyDark}
+\setbeamercolor{footline}{fg=white, bg=hsrmSec2Dark}  % footline
+\setbeamercolor{upper separation line foot}{fg=hsrmWarmGreyDark}
 \setbeamercolor{alerted text}{fg=hsrmRed}
 \setbeamercolor{example text}{fg=white}
 \setbeamercolor{copyright text}{fg=hsrmWarmGreyLight}
@@ -283,7 +303,11 @@
 \usenavigationsymbolstemplate{}
 \setbeamertemplate{footline}
 {%
-\begin{beamercolorbox}[wd=\textwidth,ht=2.5ex,dp=1.5ex,leftskip=0.3cm,rightskip=0.3cm]{structure}%
+%\begin{beamercolorbox}[wd=\textwidth]{upper separation line foot}%
+%\rule{\textwidth}{1pt}
+%\end{beamercolorbox}%
+%
+\begin{beamercolorbox}[wd=\textwidth,ht=2.5ex,dp=1.5ex,leftskip=0.3cm,rightskip=0.3cm]{footline}%
 \hfill\usebeamerfont{page number in head/foot}%
 \insertframenumber%
 \end{beamercolorbox}%
