@@ -110,9 +110,14 @@
 \setbeamerfont{copyright text}{family=\Light,size=\tiny}
 \setbeamerfont{block title}{family=\cSansBold,size=\large}
 \setbeamerfont{block title alerted}{family=\cSansBold,size=\large}
-\setbeamerfont{block body}{family=\cSans,size=\large}
-\setbeamerfont{block body alerted}{family=\cSans,size=\large}
+\setbeamerfont{block title example}{family=\cSansBold,size=\large}
+\setbeamerfont{block body}{family=\cSans}%,size=\large}
+\setbeamerfont{block body alerted}{family=\cSans}%,size=\large}
+\setbeamerfont{block body example}{family=\cSans}%,size=\large}
+%\setbeamerfont{block body}{family=\Light,size=\large}
+%\setbeamerfont{block body alerted}{family=\Light,size=\large}
 \setbeamerfont{alerted text}{family=\Medium}
+
 % Captions
 \setbeamerfont{caption name}{family=\Book}
 % Other
@@ -181,6 +186,7 @@
 \definecolor{hsrmSec3CompDark}{rgb}{0.666666667,0.333333333,0}
 
 % My Colors
+\definecolor{notsolightgreen}{rgb}{0.57,0.72,0.13}
 \definecolor{lightgreenish}{rgb}{0.8,0.9,0.5}
 \definecolor{darkgreenish}{rgb}{0.45,0.525,0.275} 
 
@@ -203,8 +209,10 @@
 % Content
 \setbeamercolor{frametitle}{parent=palette quaternary}
 % Blocks
-\setbeamercolor{block title}{parent=palette quaternary}
-\setbeamercolor{block body}{parent=palette secondary}
+%\setbeamercolor{block title}{parent=palette quaternary}
+%\setbeamercolor{block body}{parent=palette secondary}
+\setbeamercolor{block title}{fg=white, bg=hsrmSec2Dark}
+\setbeamercolor{block body}{fg=white, bg=notsolightgreen}
 \setbeamercolor{block title example}{fg=white, bg=hsrmSec1Dark}
 \setbeamercolor{block body example}{fg=white, bg=hsrmSec1}
 \setbeamercolor{block title alerted}{fg=white, bg=hsrmRedDark}

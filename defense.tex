@@ -1,7 +1,7 @@
 %!TEX program = xelatex
 
-% Name           : hsrm-beamer-demo.sty
-% Author         : Benjamin Weiss (benjamin.weiss@kreatiefton.de)
+% Name           : defense.tex
+% Author         : Jarrett Keifer (jkeifer0@gmail.com)
 % Version        : 0.4
 % Created on     : 05.05.2013
 % Last Edited on : 24.03.2014
@@ -68,6 +68,7 @@ xrightmargin=0.5em
 % Load theme
 %--------------------------------------------------------------------------
 \usetheme[seriffonts,onlysubsections]{hsrm}
+\setbeamercovered{transparent=50}
 
 \usepackage{dtklogos} % must be loaded after theme
 \usepackage{tikz}
@@ -134,13 +135,13 @@ Can I...
 
 \subsection{Deforestation in Argentina}
 \begin{frame}{Deforestation in Argentina}
-\begin{itemize}
+\visible<2->{\begin{itemize}
   \item<2-> 1998 to 2002: 940,000 ha deforested
   \item<3-> \Lightit~Ley de Bosques \Light~passed in 2007
   \begin{itemize}
     \item<4-> Classified red, yellow, and green areas
   \end{itemize}
-\end{itemize}
+\end{itemize}}
 \end{frame}
 
 \begin{frame}{Deforestation in Argentina}
@@ -201,84 +202,110 @@ Can I...
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Goal 1}
-\begingroup\setbeamercolor{block title}{bg=hsrmSec2Dark}\setbeamercolor{block body}{bg=hsrmSec2}\begin{block}{Goal}  Develop a crop mapping toolset which is efficient\\and economical\end{block}\endgroup
-\end{frame}
-
-\begin{frame}{Goal 1}
-Why?
-
+\begin{frame}{Goal 1}\begin{block}{Goal}  Develop a crop mapping toolset which is efficient\\and economical\end{block}
+\vspace{\baselineskip}
+ \visible<2->{Why is this important?
 \begin{itemize}
-  \item<1-> Better understanding of the dynamics of deforestation
-  \item<2-> More effective land management policies
-\end{itemize}
+  \item<3-> Better understanding of the dynamics of deforestation
+  \item<4-> More effective land management policies
+\end{itemize}}
 \end{frame}
-
 
 
 \subsection{Vegetation Indicies}
 \begin{frame}{Vegetation Indicies}\begin{alertblock}{Problem}  Must be able to classify crops by type\end{alertblock}
-\begin{itemize}
+\vspace{\baselineskip}
+ \visible<2->{\begin{itemize}
   \item<2-> A Vegetation Index (VI) can help with crop identification
   \begin{itemize}
     \item<3-> Normalized Difference Vegetation Index (NDVI)
-    \item<3-> Enhanced Vegetation Index (EVI)
-  \end{itemize} 
+    %\item<3-> Enhanced Vegetation Index (EVI)
+  \end{itemize}}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Vegetation Indicies}
-\begingroup\setbeamercolor{block title}{bg=hsrmSec2Dark}\setbeamercolor{block body}{bg=hsrmSec2}\begin{block}{NDVI}  \begin{equation*}
+\begin{frame}{Vegetation Indicies}\begin{block}{NDVI}  \begin{equation*}
     NDVI = \frac{\rho~_{NIR} - \rho~_{red}}{\rho~_{NIR} + \rho~_{red}}
-  \end{equation*}\end{block}\endgroup
+  \end{equation*}\end{block}
+\vspace{\baselineskip}
+ \visible<2->{\begin{itemize}
+  \item<2-> is a ratioing index
+  \item<3-> minimizes multiplicative noise
+  \item<4-> has issues with non-linearity and additive noise
+\end{itemize}}
 \end{frame}
 
+
+%\begin{frame}{Vegetation Indicies}%\begin{block}{EVI}%  \begin{equation*}
+%    EVI = G\frac{\rho~_{NIR} - \rho~_{red}}{\rho~_{NIR} +  C_1\times\rho~_{red} - C_2 \times \rho~_{blue} + L}
+%  \end{equation*}%\end{block}
+%\end{frame}
+%  
+%\begin{frame}{Vegetation Indicies}%\begin{block}{MODIS EVI}%  \begin{equation*}
+%    EVI = 2.5\frac{\rho~_{NIR} - \rho~_{red}}{\rho~_{NIR} +  6.0\times\rho~_{red} - 7.5 \times \rho~_{blue} + 1.0}
+%  \end{equation*}%\end{block}
+%\vspace{\baselineskip} %
+%\begin{itemize}
+%  \item<1-> input bands require atmospheric correction
+%  \item<2-> no saturation in high biomass
+%\end{itemize}
+%\end{frame}
+
 \begin{frame}{Vegetation Indicies}
-Thus, NDVI 
+\begin{alertblock}{Problem}  Must be able to classify crops by type\end{alertblock}
+\vspace{\baselineskip}
+\visible<2->{\begingroup
+\setbeamercolor{block title}{bg=hsrmSec2CompDark}
+\setbeamercolor{block body}{bg=hsrmSec2Comp}
+\begin{block}{Questions}
 \begin{itemize}
-  \item<1-> is a ratioing index
-  \item<2-> minimizes multiplicative noise
-  \item<3-> has issues with non-linearity and additive noise
+  \item What if two crops have similar VI values on a single date?
+  \item How to determine the VI values of a crop in an image?
 \end{itemize}
-\end{frame}
-
-
-\begin{frame}{Vegetation Indicies}
-\begingroup\setbeamercolor{block title}{bg=hsrmSec2Dark}\setbeamercolor{block body}{bg=hsrmSec2}\begin{block}{EVI}  \begin{equation*}
-    EVI = G\frac{\rho~_{NIR} - \rho~_{red}}{\rho~_{NIR} +  C_1\times\rho~_{red} - C_2 \times \rho~_{blue} + L}
-  \end{equation*}\end{block}\endgroup
-\end{frame}
-  
-\begin{frame}{Vegetation Indicies}
-\begingroup\setbeamercolor{block title}{bg=hsrmSec2Dark}\setbeamercolor{block body}{bg=hsrmSec2}\begin{block}{MODIS EVI}  \begin{equation*}
-    EVI = 2.5\frac{\rho~_{NIR} - \rho~_{red}}{\rho~_{NIR} +  6.0\times\rho~_{red} - 7.5 \times \rho~_{blue} + 1.0}
-  \end{equation*}\end{block}\endgroup
+\end{block}
+\endgroup}
 \end{frame}
 
 \begin{frame}{Vegetation Indicies}
-With EVI 
-\begin{itemize}
-  \item<1-> input bands require atmospheric correction
-  \item<2-> no saturate in high biomass
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Vegetation Indicies}
-Need to be able to determine crop types
-\begin{enumerate}
-  \item<2-> What if two crops have similar VI values on a single date?
-  \item<3-> How to determine the VI values of a crop in an image?
-\end{enumerate}
-\end{frame}
-
-\begin{frame}{Vegetation Indicies}
+\begingroup
+\setbeamercolor{block title}{bg=hsrmSec2CompDark}
+\setbeamercolor{block body}{bg=hsrmSec2Comp}
+\begin{block}{Question}
 What if two crops have similar VI values on a single date?
+\end{block}
+\endgroup
+\visible<2->{\begin{exampleblock}{Answer}
+Use imagery from multiple dates.
+\end{exampleblock}}
+\end{frame}
+
+\begin{frame}{Time Series Images}
+NASA's Moderate Resolution Imaging Spectroradiometer (MODIS) Sensor
 \begin{itemize}
-  \item<2-> Use imagery from multiple dates to maximize the number of pixels that can be clearly classified.
+  \item<1-> Terra and Aqua satellites
+  \item<2-> Each images the Earth once per day
+  \item<3-> Composite 16-day NDVI imagery at 250-meter resolution
+%  \begin{itemize}
+%    \item<3-> Both NDVI and EVI data
+%  \end{itemize}
 \end{itemize}
 \end{frame}
 
-%Go into wardlow et al, MODIS sensor on the Terra and Aqua satellites
+
+\begin{frame}{Time Series Images}
+\begin{columns}[c]
+\column{0.45\textwidth}
+Time Series Image (TSI)
+\begin{itemize}
+  \item<+-> Each band is a 16-day VI composite
+  \item<+-> Bands are sequential composites
+  \item<+-> Contains enough bands to cover an entire growing season
+\end{itemize}
+
+\column{0.45\textwidth}
+
+\end{columns}
+\end{frame}
 
 \subsection{Phenological Classification}
 \begin{frame}{Phenological Classification}
@@ -293,13 +320,25 @@ What if two crops have similar VI values on a single date?
 
 \subsection{Phenological Classification}
 \begin{frame}{Phenological Classification}
-How to determine the VI values of a crop in an image?
-\begin{itemize}
-  \item<2-> Traditional approaches all require training sites.
-\end{itemize}
-\vspace{\baselineskip}
-\centering
-\pause\pause~\Book~But what if you don’t have training sites?
+\begingroup
+\setbeamercolor{block title}{bg=hsrmSec2CompDark}
+\setbeamercolor{block body}{bg=hsrmSec2Comp}
+\begin{block}{Question}
+  How to determine the VI values of a crop in an image?
+\end{block}
+\endgroup
+\visible<2->{\begin{exampleblock}{Answer}
+  Existing approaches require training sites.
+\end{exampleblock}}
+%\centering
+%\pause\pause~\Book~But what if you don’t have training sites?
+\end{frame}
+
+\begin{frame}{Phenological Classification}
+\begin{alertblock}{Problem}  What if you don’t have training sites?\end{alertblock}
+%\vspace{\baselineskip}
+%\centering
+%\pause\pause~\Book~But what if you don’t have training sites?
 \end{frame}
 
 
@@ -729,7 +768,7 @@ How to determine the VI values of a crop in an image?
 %
 %\subsection{Fußnoten}
 %\begin{frame}{Fußnoten}
-%	Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem \footnote{Lorem ipsum dolor sit amet} ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+%	Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem \footnote[frame,1]{Lorem ipsum dolor sit amet} ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 %\end{frame}
 %
 %\subsection{Notizen}
