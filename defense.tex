@@ -30,14 +30,23 @@
 \usepackage{pgf}  % for plots
 \usepackage{setspace}
 
+\usepackage[export]{adjustbox}  % for right align of figures
+
 % Reference Settings
 \input{bibsettings.tex}
 
 % Tables
-\usepackage{tabu}
-\usepackage{tabularx,ragged2e}
+%\usepackage{tabu}
+%\usepackage{tabularx,ragged2e}
+
+\usepackage{siunitx}
+
+
 \usepackage{booktabs}
 \usepackage{multicol}
+
+\usepackage{caption}
+\captionsetup{labelformat=empty, skip=0pt,belowskip=0pt}
 
 %% Default Packages (Remove if not needed)
 \usepackage{graphicx}
@@ -67,7 +76,7 @@ xrightmargin=0.5em
 %--------------------------------------------------------------------------
 % Load theme
 %--------------------------------------------------------------------------
-\usetheme[seriffonts,onlysubsections]{hsrm}
+\usetheme[seriffonts]{hsrm}
 \setbeamercovered{transparent=50}
 
 \usepackage{dtklogos} % must be loaded after theme
@@ -102,7 +111,7 @@ xrightmargin=0.5em
 % Content
 %--------------------------------------------------------------------------
 
-\section*{Research Questions}
+\section*{Questions}
 
 \begin{frame}{Research Questions}
 
@@ -147,20 +156,22 @@ Can I...
 \begin{frame}{Deforestation in Argentina}
 
 \begin{table}
+  \sisetup{
+    table-number-alignment = right}
   \centering
   \caption{Deforestation in Argentina, 2006 to 2011}
   \label{table:deforestationAR}
-  \begin{tabu}{X[1,c]X[0.8,c]}
+  \begin{tabular}{lS[table-unit-alignment = right]}
   \toprule
   \Book{Time Period} & \Book{Hectares Deforested} \\
   \midrule
-  2006 to \Lightit~Ley de Bosques \Light~(2007) & 573,296 \\
-  Ley de Bosques to OTBN (2009) & 473,001 \\
-  OTBN to 2011 & 459,108 \\
+  2006 to \Lightit~Ley de Bosques \Light~(2007) & 573296 \\
+  Ley de Bosques to OTBN (2009) & 473001 \\
+  OTBN to 2011 & 459108 \\
   \midrule
-  \Book{Total} & 1,505,405 \\
+  \Book{Total} & 1505405 \\
   \bottomrule
-  \end{tabu}
+  \end{tabular}
 \end{table}
 
 \end{frame}
@@ -260,7 +271,7 @@ Can I...
 \begin{block}{Questions}
 \begin{itemize}
   \item What if two crops have similar VI values on a single date?
-  \item How to determine the VI values of a crop in an image?
+  \item How does one determine a crop's VI values?
 \end{itemize}
 \end{block}
 \endgroup}
@@ -294,7 +305,7 @@ NASA's Moderate Resolution Imaging Spectroradiometer (MODIS) Sensor
 
 \begin{frame}{Time Series Images}
 \begin{columns}[c]
-\column{0.45\textwidth}
+\column{0.4\linewidth}
 Time Series Image (TSI)
 \begin{itemize}
   \item<+-> Each band is a 16-day VI composite
@@ -302,21 +313,27 @@ Time Series Image (TSI)
   \item<+-> Contains enough bands to cover an entire growing season
 \end{itemize}
 
-\column{0.45\textwidth}
+\column{0.5\linewidth}
 
 \end{columns}
 \end{frame}
 
-\subsection{Phenological Classification}
-\begin{frame}{Phenological Classification}
+\begin{frame}{Time Series Images}
+\begin{block}{Key Points}
+\begin{itemize}
+  \item A TSI pixel shows VI values over time
+  \item Each crop's phenology exhibits a unique temporal signature
+\end{itemize}
+\end{block}
+%\visible<3->{\alert<3>{Sounds like hyperspectral remote sensing, where each pixel shows reflectance over the spectrum, and materials have unique spectral signatures...}}
+\end{frame}
 
+\begin{frame}{Crop Temporal Signatures}
 \begin{figure}
   \centering
   \includegraphicscopyright[width=0.85\linewidth]{Graphics/wardlowCropSignatures.png}{\autocite[From][]{wardlow2005state-level}}
 \end{figure}
-
 \end{frame}
-
 
 \subsection{Phenological Classification}
 \begin{frame}{Phenological Classification}
@@ -324,7 +341,7 @@ Time Series Image (TSI)
 \setbeamercolor{block title}{bg=hsrmSec2CompDark}
 \setbeamercolor{block body}{bg=hsrmSec2Comp}
 \begin{block}{Question}
-  How to determine the VI values of a crop in an image?
+  How does one determine a crop's VI values?
 \end{block}
 \endgroup
 \visible<2->{\begin{exampleblock}{Answer}
@@ -336,9 +353,95 @@ Time Series Image (TSI)
 
 \begin{frame}{Phenological Classification}
 \begin{alertblock}{Problem}  What if you don’t have training sites?\end{alertblock}
-%\vspace{\baselineskip}
-%\centering
-%\pause\pause~\Book~But what if you don’t have training sites?
+\end{frame}
+
+\begin{frame}{Time Series Images}
+\begin{block}{Key Points}
+\begin{itemize}
+  \item A TSI pixel shows VI values over time
+  \item Each crop's phenology exhibits a unique temporal signature
+\end{itemize}
+\end{block}
+\vspace{\baselineskip}
+\centering
+\visible<2->{\alert{\Medium~Sounds a lot like hyperspectral remote sensing...}}
+\end{frame}
+
+\begin{frame}{Time Series Images}
+\begingroup
+\setbeamercolor{block title}{bg=hsrmSec2CompDark}
+\setbeamercolor{block body}{bg=hsrmSec2Comp}
+\begin{block}{Idea}
+  Could we use a hyperspectal-like method to fit known\\crop signatures to unknown pixels?
+\end{block}
+\endgroup
+\end{frame}
+
+\begin{frame}{Time Series Images}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\linewidth]{Graphics/transformations.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}{TSF Method}
+Two-Step Filter (TSF) method from \textcite{sakamoto2010a-two-step}
+\begin{itemize}
+  \item Two steps: (1) wavelet smoothing and (2) curve fitting
+  \item Curve fitting can fit reference signature to unknown pixels
+\end{itemize}
+\end{frame}
+
+\begin{frame}{TSF Method}
+\begin{block}{TSF Equation 1}
+  \begin{equation*}
+    RMSE = \biggl[\frac{1}{365/s}\sum_{x\ =\ j(0),\ j(1)\ldots}^{n}\bigl(f\left(x\right)-g\left(x\right)\bigr)^{2}\biggr]^{\frac{1}{2}}
+  \end{equation*}
+\end{block}
+\vspace{0.5\baselineskip}
+where
+\begin{itemize}
+  \item $n$ is the number of dates in the TSI
+  \item $f(x)$ is the temporal signature for a given pixel in a dataset
+  \item $x$ is the DOY, as defined by $j(y)$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{TSF Method}
+\begin{block}{TSF Equation 2}
+  \begin{equation*}
+    g(x) = yscale\times~h\left(xscale\times(x + tshift)\right)
+  \end{equation*}
+\end{block}
+\vspace{0.5\baselineskip}
+where
+\begin{itemize}
+  \item $yscale$ and  $xscale$ are coefficients controlling the vertical and horizontal scaling of a reference signature $h(x)$
+  \item $tshift$ is a constant representing the horizontal shift, in days, of $h(x)$
+  \item $x$ is the DOY
+\end{itemize}
+\end{frame}
+
+\begin{frame}{TSF Method}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\linewidth]{Graphics/transformations.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}{TSF Method}
+\begin{block}{TSF Equation 1}
+  \begin{equation*}
+    RMSE = \biggl[\frac{1}{365/s}\sum_{x\ =\ j(0),\ j(1)\ldots}^{n}\bigl(f\left(x\right)-g\left(x\right)\bigr)^{2}\biggr]^{\frac{1}{2}}
+  \end{equation*}
+\end{block}
+\vspace{0.5\baselineskip}
+Minimizing Equation 1 with appropriate constraints on $yscale$, $xscale$, and $tshift$ will find the fit of a a reference signature to a pixel.
+\end{frame}
+
+\begin{frame}{Phenological Classification}
+\begin{alertblock}{Problem}  What if you don’t have training sites?\end{alertblock}
+\visible<2->{\begin{block}{Answer}  The TSF equations allow the classification of unknown pixels\\using a library of crop signatures.\end{block}}
 \end{frame}
 
 
@@ -346,15 +449,52 @@ Time Series Image (TSI)
 \section{Study Areas}
 
 \subsection{Kansas}
-\begin{frame}{}
-	
+\begin{frame}{Kansas Study Area}
+\begin{columns}[onlytextwidth]
+\begin{column}{0.47\textwidth}
+  \begin{itemize}
+    \item 2012 Kansas top crops:
+      \begin{itemize}
+        \item Winter wheat
+        \item Corn
+        \item Soy
+      \end{itemize}
+    \item Ground truth:\\USDA Cropland Data Layer
+  \end{itemize}
+\end{column}
+\begin{column}{0.53\textwidth}
+  \begin{figure}
+    \includegraphics[width=1.02\textwidth,right]{Graphics/KSstudysite.pdf}
+  \end{figure}
+\end{column}
+\end{columns}
 \end{frame}
 
 
 \subsection{Pellegrini}
 \begin{frame}{Department of Pellegrini}
-	
+  \begin{figure}
+    \includegraphics[width=0.97\textwidth]{Graphics/argentinaOverview_landscape.pdf}
+  \end{figure}
 \end{frame}
+
+\begin{frame}{Department of Pellegrini}
+\centering
+
+\begin{table}
+  \caption{Deforestation in Pellegrini, 2001 to 2011}
+  \begin{tabular}{SSSS}  
+    \toprule
+    \Book{Period} & \Book{Hectares Cleared} & \Book{Percent of Land Area} & \Book{Hectares per Year} \\
+    \midrule
+    2001 to 2005 & 5,968 & 0.9 & 1,492 \\
+    2006 to 2011 & 75,249 & 10.8 & 15,050 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+%\vspace{\baselineskip}
+%\alert{Annual rate of clearing increased over 1000\%!}\end{frame}
 
 
 % DATA AND METHODS
@@ -384,7 +524,7 @@ Time Series Image (TSI)
 
 
 % CONCLUSION
-\section{Concluding Remarks}
+\section{Conclusion}
 
 
 
