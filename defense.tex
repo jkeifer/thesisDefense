@@ -34,7 +34,7 @@
   \aagdate}
   
 
-\usepackage[overload]{textcase} %provides capitalization protection via \NoCaseChanges tag
+\usepackage[overload]{textcase} %provides capitalization protection via \NoCaseChange tag
 
 \usepackage{pgf}  % for plots
 \usepackage{setspace}
@@ -177,9 +177,9 @@ Can I...
 \begin{frame}{Deforestation in Argentina}
 \visible<2->{\begin{itemize}
   \item<2-> 1998 to 2002: 940,000 ha deforested
-  \item<3-> \Lightit{Ley de Bosques} \Light{passed in 2007}
+  \item<3-> \Lightit{Ley de Bosques} \Light{passed in November 2007}
   \begin{itemize}
-    \item<4-> Classified red, yellow, and green areas
+    \item<4-> Classified red, yellow, and green areas through the \Lightit{Ordenamiento Territorial de los Bosques Nativos} \Light{(Land Management Order for Native Forests, OTBN) passed in 2009}
   \end{itemize}
 \end{itemize}}
 \end{frame}
@@ -539,11 +539,12 @@ Minimizing Equation 1 with appropriate constraints on $yscale$, $xscale$, and $t
      & & & \\
     \midrule
     2001 to 2005 & 5968 & 0.9 & 1492 \\
-    2006 to 2011 & 75249 & 10.8 & 15050 \\
+    2006 to 2011 & 75249 & 10.9 & 15050 \\
     \bottomrule
   \end{tabular}
 \end{table}
 \visible<2>{\vspace{\baselineskip}
+\centering
 \alert{Annual rate of clearing increased over 1000\%!}}\end{frame}
 
 \begin{frame}{Department of Pellegrini}
@@ -561,12 +562,126 @@ Top crops in Pellegrini, 2001 to 2005
 \section{Data and Methods}
 
 \subsection{Datasets}
+\begin{frame}{Datasets}
+\begin{itemize}
+  \item<1-> 250-meter MODIS 16-day composite VI imagery
+  \item<2-> 30-meter 2012 USDA Cropland Data Layer
+  \item<3-> 30-meter Landsat 8 OLI satellite imagery
+  \item<4-> Pellegrini boundary shapefile
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Datasets}
+\begin{itemize}
+  \item<1-> 2014 Pellegrini Land Cover vector dataset
+\end{itemize}
+\end{frame}
 
 
 \subsection{Pellegrini Data Collection}
+\begin{frame}{Pellegrini Data Collection}
+\begin{itemize}
+  \item<1-> Data collection in Pellegrini \datenoyear{12}{3} to \datenoyear{3}{4}
+  \begin{itemize}
+    \item<2-> 400 random sample points
+    \begin{itemize}
+      \item<3-> Direct observation
+      \item<3-> Interviews with farmers
+      \item<3-> Satellite image interpretation
+    \end{itemize}
+    \item<4-> Agricultural practices and planting/harvesting dates
+  \end{itemize}
+\end{itemize}
+\end{frame}
 
 
 \subsection{Data Processing}
+\begin{frame}{Processing Workflow}
+\begin{enumerate}
+  \item Reproject the MODIS composite VIs
+  \item Assemble composite VIs into TSIs
+  \item Extract crop signatures from the Kansas TSI
+  \begin{enumerate}
+    \item Identify pure pixels (e.g. non-mixels)
+    \item Use the CDL to isolate each crop
+    \item Identify phenological groups using k-means clustering
+    \item Extract pixel values for each group and average
+  \end{enumerate}
+  \item Fit the Kansas signatures to the Kansas TSI using the TSF method
+  \item Classify the Kansas RMSE rasters and assess accuracy
+  \item Fit the Kansas signatures to the Argentina TSI
+  \item Classify the Argentina RMSE rasters and assess accuracy
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Reprojection}
+\begin{enumerate}
+  \item Reproject the MODIS composite VIs
+  \begin{itemize}
+    \item Land Processes Distributed Active Archive Center's (LPDAAC) MODIS Reprojection Tool
+  \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Building the TSI\NoCaseChange{s}}
+\begin{enumerate}
+  \item[2.] Assemble composite VIs into TSIs
+  \begin{itemize}
+    \item<1-> Python command line tool (PCLT) to stack composites
+    \item<2-> Kansas TSI covered 2012 DOY 97 to 2012 DOY 273
+    \item<3-> Argentina TSI covered 2014 DOY -13 to 2014 DOY 161
+    \begin{itemize}
+      \item<4-> Aqua DOY 105 composite used in place of DOY 113 composite
+      \item<4-> DOY 129 interpolated from DOY 105 and DOY 145 composites
+    \end{itemize}
+  \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Extract crop signatures}
+\begin{enumerate}
+  \item[3.1] Identify pure pixels (e.g. non-mixels)
+  \begin{itemize}
+    \item<1-> Intersected MODIS pixel grid with vectorized CDL
+    \item<2-> Selected all features >= 53,000 m$^2$ in area
+  \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Extract crop signatures}
+\begin{enumerate}
+  \item[3.2] Use the CDL to isolate each crop
+  \begin{itemize}
+    \item<1-> Resampled CDL to MODIS grid by majority
+    \item<2-> Isolated the TSI pixels for each crop
+      \begin{itemize}
+        \item<3-> Corn
+        \item<3-> Soy
+        \item<3-> Sorghum
+      \end{itemize}
+  \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Extract crop signatures}
+\begin{enumerate}
+  \item[3.3] Identify phenological groups using k-means clustering
+  \begin{itemize}
+    \item<1-> ENVI k-means tool
+    \item<2-> Three clusters, 1.0\% change threshold, 100 iterations
+  \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Extract crop signatures}
+\begin{enumerate}
+  \item[3.3] Extract pixel values for each group and average
+  \begin{itemize}
+    \item<1-> Pixels from each k-means cluster converted to points
+    \item<2-> PCLT to find mean values from points
+  \end{itemize}
+\end{enumerate}
+\end{frame}
 
 
 % RESULTS AND DISCUSSION
@@ -574,7 +689,7 @@ Top crops in Pellegrini, 2001 to 2005
 
 \subsection{Pellegrini Data}
 
-\subsection{Elminating Kansas Mixels}
+\subsection{Eliminating Kansas Mixels}
 
 \subsection{Kansas Crop Signatures}
 
