@@ -25,6 +25,15 @@
 \usepackage{datetime}
 \setdefaultdate{\dateaustralian}
 
+\newdateformat{noyear}{\THEDAY\ \monthname[\THEMONTH]}
+\newdateformat{aagdate}{\THEDAY\ \monthname[\THEMONTH]\ \THEYEAR}
+
+% command to print noyear dates, args {dayno}{monthno}
+\newcommand{\datenoyear}[2]{%
+  \noyear\formatdate{#1}{#2}{1}%
+  \aagdate}
+  
+
 \usepackage[overload]{textcase} %provides capitalization protection via \NoCaseChanges tag
 
 \usepackage{pgf}  % for plots
@@ -34,19 +43,6 @@
 
 % Reference Settings
 \input{bibsettings.tex}
-
-% Tables
-%\usepackage{tabu}
-%\usepackage{tabularx,ragged2e}
-
-\usepackage{siunitx}
-
-
-\usepackage{booktabs}
-\usepackage{multicol}
-
-\usepackage{caption}
-\captionsetup{labelformat=empty, skip=0pt,belowskip=0pt}
 
 %% Default Packages (Remove if not needed)
 \usepackage{graphicx}
@@ -73,6 +69,40 @@ xleftmargin=0.5em,
 xrightmargin=0.5em
 }
 
+
+%--------------------------------------------------------------------------
+% Tables settings
+%--------------------------------------------------------------------------
+%\usepackage{tabu}
+%\usepackage{tabularx,ragged2e}
+
+\usepackage{siunitx}
+\sisetup{table-number-alignment = right,
+         table-text-alignment = left,
+         group-separator={,},
+         table-figures-decimal=0,
+         group-minimum-digits=4}
+
+% Make table text smaller
+\makeatletter
+\g@addto@macro{\table}{\footnotesize}
+\makeatother
+
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{multirow}
+
+% Custom column types
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+% Caption settings
+\usepackage{caption}
+\captionsetup{labelformat=empty, skip=0pt,belowskip=0pt}
+
+
 %--------------------------------------------------------------------------
 % Load theme
 %--------------------------------------------------------------------------
@@ -98,6 +128,7 @@ xrightmargin=0.5em
 % Notes settings
 %--------------------------------------------------------------------------
 \setbeameroption{show notes}
+
 
 \begin{document}
 %--------------------------------------------------------------------------
@@ -146,7 +177,7 @@ Can I...
 \begin{frame}{Deforestation in Argentina}
 \visible<2->{\begin{itemize}
   \item<2-> 1998 to 2002: 940,000 ha deforested
-  \item<3-> \Lightit~Ley de Bosques \Light~passed in 2007
+  \item<3-> \Lightit{Ley de Bosques} \Light{passed in 2007}
   \begin{itemize}
     \item<4-> Classified red, yellow, and green areas
   \end{itemize}
@@ -156,31 +187,25 @@ Can I...
 \begin{frame}{Deforestation in Argentina}
 
 \begin{table}
-  \sisetup{
-    table-number-alignment = right}
   \centering
   \caption{Deforestation in Argentina, 2006 to 2011}
   \label{table:deforestationAR}
-  \begin{tabular}{lS[table-unit-alignment = right]}
+  \begin{tabular}{lS[table-unit-alignment=right]}
   \toprule
   \Book{Time Period} & \Book{Hectares Deforested} \\
   \midrule
-  2006 to \Lightit~Ley de Bosques \Light~(2007) & 573296 \\
-  Ley de Bosques to OTBN (2009) & 473001 \\
+  2006 to \Lightit{Ley de Bosques} \Light{(2007)} & 573296 \\
+  \Lightit{Ley de Bosques} \Light{to OTBN (2009)} & 473001 \\
   OTBN to 2011 & 459108 \\
   \midrule
   \Book{Total} & 1505405 \\
   \bottomrule
   \end{tabular}
 \end{table}
-
-\end{frame}
-
-\begin{frame}{Deforestation in Argentina}
-\begin{itemize}
+\visible<2>{\begin{itemize}
   \item Deforestation has remained extremely high
-  \item The effect of the the \Lightit~Ley de Bosques \Light~has been questioned
-\end{itemize}
+  \item Questions the effectiveness of the \Lightit{Ley de Bosques}
+  \end{itemize}}
 \end{frame}
 
 
@@ -470,6 +495,25 @@ Minimizing Equation 1 with appropriate constraints on $yscale$, $xscale$, and $t
 \end{columns}
 \end{frame}
 
+\begin{frame}{Kansas Study Area}
+\begin{table}
+  \centering
+  \caption[Kansas Study Site Planting Dates]{\parbox{2.5in}{\centering~Kansas Study Site Planting Dates \scriptsize\autocite[adapted from][]{shroyer1996kansas}}}
+  \begin{tabular}{L{.75in} R{1.75in}}
+    \toprule
+    \Book{Crop} & \Book{Planting Date Range} \\
+    \midrule
+    Wheat & \datenoyear{25}{9} to \datenoyear{20}{10} \\
+    Corn & \datenoyear{1}{4} to \datenoyear{10}{5} \\
+    Sorghum & \datenoyear{15}{5} to \datenoyear{20}{6} \\
+    Soybeans & \datenoyear{5}{5} to \datenoyear{10}{6} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\end{frame}
+
+
 
 \subsection{Pellegrini}
 \begin{frame}{Department of Pellegrini}
@@ -479,22 +523,38 @@ Minimizing Equation 1 with appropriate constraints on $yscale$, $xscale$, and $t
 \end{frame}
 
 \begin{frame}{Department of Pellegrini}
+  \begin{figure}
+    \includegraphics[width=1.0\textwidth]{Graphics/pellegrini75to14_landscape.pdf}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Department of Pellegrini}
 \centering
 
 \begin{table}
   \caption{Deforestation in Pellegrini, 2001 to 2011}
-  \begin{tabular}{SSSS}  
+  \begin{tabular}{lSS[table-figures-decimal=1]S}  
     \toprule
-    \Book{Period} & \Book{Hectares Cleared} & \Book{Percent of Land Area} & \Book{Hectares per Year} \\
+    \multirow{2}{*}{\Book{Time Period}} & \multirow{2}{*}{\parbox{0.75in}{\raggedleft\Book{Hectares Cleared}}} & \multirow{2}{*}{\parbox{0.75in}{\raggedleft\Book{Percent of Land Area}}} & \multirow{2}{*}{\parbox{0.75in}{\raggedleft\Book{Hectares per Year}}} \\
+     & & & \\
     \midrule
-    2001 to 2005 & 5,968 & 0.9 & 1,492 \\
-    2006 to 2011 & 75,249 & 10.8 & 15,050 \\
+    2001 to 2005 & 5968 & 0.9 & 1492 \\
+    2006 to 2011 & 75249 & 10.8 & 15050 \\
     \bottomrule
   \end{tabular}
 \end{table}
+\visible<2>{\vspace{\baselineskip}
+\alert{Annual rate of clearing increased over 1000\%!}}\end{frame}
 
-%\vspace{\baselineskip}
-%\alert{Annual rate of clearing increased over 1000\%!}\end{frame}
+\begin{frame}{Department of Pellegrini}
+Top crops in Pellegrini, 2001 to 2005
+\begin{itemize}
+  \item Soy
+  \item Corn
+  \item Winter Wheat
+\end{itemize}
+\autocite[From][]{volante2005analisis}
+\end{frame}
 
 
 % DATA AND METHODS

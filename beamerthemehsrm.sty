@@ -120,6 +120,7 @@
 
 % Captions
 \setbeamerfont{caption name}{family=\Book}
+\setbeamerfont{caption}{family=\Book}
 % Other
 \setbeamerfont{cSans}{family=\cSans}
 \setbeamerfont{cSansBold}{family=\cSansBold}
@@ -324,7 +325,8 @@
 %---------------------------------------------------------------------
 % Captions
 %---------------------------------------------------------------------
-\setbeamertemplate{caption label separator}{: }
+%\setbeamertemplate{caption label separator}{: }
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
 
 %---------------------------------------------------------------------
 % Blocks
