@@ -462,6 +462,8 @@ where
 \end{block}
 \vspace{0.5\baselineskip}
 Minimizing Equation 1 with appropriate constraints on $yscale$, $xscale$, and $tshift$ will find the fit of a a reference signature to a pixel.
+
+\alert<2>{The signature with the lowest RMSE provides the most probable identification.}
 \end{frame}
 
 \begin{frame}{Phenological Classification}
@@ -614,41 +616,36 @@ Top crops in Pellegrini, 2001 to 2005
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Reprojection}
-\begin{enumerate}
-  \item Reproject the MODIS composite VIs
-  \begin{itemize}
-    \item Land Processes Distributed Active Archive Center's (LPDAAC) MODIS Reprojection Tool
-  \end{itemize}
-\end{enumerate}
+\begin{frame}{1. Reprojection}
+\begin{itemize}
+  \item Land Processes Distributed Active Archive Center's (LPDAAC) MODIS Reprojection Tool
+\end{itemize}
 \end{frame}
 
-\begin{frame}{Building the TSI\NoCaseChange{s}}
-\begin{enumerate}
-  \item[2.] Assemble composite VIs into TSIs
+\begin{frame}{2. Building the TSI\NoCaseChange{s}}
+\begin{itemize}
+  \item<1-> Python command line tool (PCLT) to stack composites
+  \item<2-> Kansas TSI covered 2012 DOY 97 to 2012 DOY 273
+  \item<3-> Argentina TSI covered 2014 DOY -13 to 2014 DOY 161
   \begin{itemize}
-    \item<1-> Python command line tool (PCLT) to stack composites
-    \item<2-> Kansas TSI covered 2012 DOY 97 to 2012 DOY 273
-    \item<3-> Argentina TSI covered 2014 DOY -13 to 2014 DOY 161
-    \begin{itemize}
-      \item<4-> Aqua DOY 105 composite used in place of DOY 113 composite
-      \item<4-> DOY 129 interpolated from DOY 105 and DOY 145 composites
-    \end{itemize}
+    \item<4-> Aqua DOY 105 composite used in place of DOY 113 composite
+    \item<4-> DOY 129 interpolated from DOY 105 and DOY 145 composites
   \end{itemize}
-\end{enumerate}
+\end{itemize}
 \end{frame}
 
-\begin{frame}{Extract crop signatures}
+\begin{frame}{3. Extract crop signatures}
 \begin{enumerate}
   \item[3.1] Identify pure pixels (e.g. non-mixels)
   \begin{itemize}
+    % Necessary because mixels do not have pure temporal signatures
     \item<1-> Intersected MODIS pixel grid with vectorized CDL
     \item<2-> Selected all features >= 53,000 m$^2$ in area
   \end{itemize}
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Extract crop signatures}
+\begin{frame}{3. Extract crop signatures}
 \begin{enumerate}
   \item[3.2] Use the CDL to isolate each crop
   \begin{itemize}
@@ -663,7 +660,7 @@ Top crops in Pellegrini, 2001 to 2005
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Extract crop signatures}
+\begin{frame}{3. Extract crop signatures}
 \begin{enumerate}
   \item[3.3] Identify phenological groups using k-means clustering
   \begin{itemize}
@@ -673,12 +670,67 @@ Top crops in Pellegrini, 2001 to 2005
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Extract crop signatures}
+\begin{frame}{3. Extract crop signatures}
 \begin{enumerate}
   \item[3.3] Extract pixel values for each group and average
   \begin{itemize}
     \item<1-> Pixels from each k-means cluster converted to points
     \item<2-> PCLT to find mean values from points
+    \begin{itemize}
+      \item<2-> Produces .ref signature files
+    \end{itemize}
+  \end{itemize}
+\end{enumerate}
+\visible<3->{\centering~Now we have crop signatures!}
+\end{frame}
+
+\begin{frame}{Fitting Signatures}
+\begin{enumerate}
+  \item[4, 6.] Fit Kansas signatures to {\footnotesize\texttt{<insert study area here>}}\\TSI using TSF method
+  \begin{itemize}
+    % Kansas to Kansas for testing and verification of signatures and toolset
+    \item<2-> Not using the TSF's wavelet filtering
+    \item<3-> PCLT to fit reference signatures to a TSI using\\TSF equations
+    \begin{itemize}
+      \item<3-> Creates a RMSE raster for each signature
+      \item<4-> $xscale$ and $yscale$ bounds: 0.6 to 1.4
+      \item<5-> $tshift$ bounds: $\pm10$ days Kansas, 120 to 140 days Argentina
+    \end{itemize}
+  \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Classifying RMSE Rasters}
+\begin{enumerate}
+  \item[5, 7.] Classify {\footnotesize\texttt{<insert study area here>}} RMSE rasters\\and assess accuracy
+  \begin{itemize}
+    \item<2-> Signature with lowest RMSE value is best identification
+    \item<3-> Not all RMSE values should be considered
+    \begin{itemize}
+      \item<4-> If all signatures have high RMSE values,\\none are a good match
+    \end{itemize}
+  \end{itemize}
+\end{enumerate}
+\visible<5->{\begin{alertblock}{Problem}
+  How do we determine which RMSE values to consider?
+\end{alertblock}}
+\end{frame}
+
+\begin{frame}{Classifying RMSE Rasters}
+\begin{alertblock}{Problem}
+  How do we determine which RMSE values to consider?
+\end{alertblock}
+\visible<2->{\begin{block}{Solution\visible<3->{, kind of}}
+  Brute force through different threshold combinations, classifying and assessing the accuracy to find the best result.
+\end{block}}
+\end{frame}
+
+\begin{frame}{Classifying RMSE Rasters}
+\begin{enumerate}
+  \item[5, 7.] Classify {\footnotesize\texttt{<insert study area here>}} RMSE rasters\\and assess accuracy
+  \begin{itemize}
+    \item<2-> PCLT to iterate through user-defined range of thresholds
+    \item<3-> Classification and accuracy rasters with best combination
   \end{itemize}
 \end{enumerate}
 \end{frame}
@@ -686,12 +738,95 @@ Top crops in Pellegrini, 2001 to 2005
 
 % RESULTS AND DISCUSSION
 \section{Results and Discussion}
+\begin{frame}{Results}
+\begin{itemize}
+  \item Summer 2014 Pellegrini ground truth
+  \item Pellegrini agricultural practices
+  \item Kansas crop signatures
+  \item Kansas classification
+  \item Pellegrini classification
+\end{itemize}
+\end{frame}
 
 \subsection{Pellegrini Data}
+\begin{frame}{Pellegrini Ground Truth}
+\begin{columns}[onlytextwidth]
+\begin{column}{0.47\textwidth}
+  \begin{itemize}
+    \item 378 of 400 sample\\points were identified
+    \item Many additional\\fields were collected
+  \end{itemize}
+\end{column}
+\begin{column}{0.53\textwidth}
+  \begin{figure}
+    \includegraphics[width=1.0\textwidth]{Graphics/collecteddata.pdf}
+  \end{figure}
+\end{column}
+\end{columns}
+\end{frame}
 
-\subsection{Eliminating Kansas Mixels}
+\begin{frame}{Pellegrini Ground Truth}
+\begin{table}
+  \centering
+  \caption{\parbox{4in}{\centering\Book{Summer 2014 Pellegrini Land Cover Classes}}}
+  \begin{tabular}{lSS}
+    \toprule
+    \Book{Cover Type} & \Book{Hectares} & \Book{Sample Points} \\
+    \midrule
+    Forested & 389541 & 247 \\
+    Other & 42229 & 22 \\
+    Corn & 41488 & 36 \\
+    Pasture & 35057 & 37 \\
+    Soy & 27498 & 24 \\
+    Poroto & 9539 & 7 \\
+    Nothing & 3057 & 3 \\
+    Sorghum & 1646 & 2 \\
+    \midrule
+    Unknown & 92248 & 17 \\
+    Omitted & 52052 & 5 \\
+    \midrule
+    \Book{Total} & 694346 & 400 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Pellegrini Agriculture}
+\begin{table}
+  \centering
+  \caption{Key Dates for Pellegrini Summer Crops}
+  \begin{tabular}{lcc}
+    \toprule
+    \Book{Crop} & \Book{Ideal Planting Range} & \Book{Harvesting Begins} \\
+    \midrule
+    Soy & \datenoyear{15}{12} to \datenoyear{15}{1} & \datenoyear{1}{5} \\
+    Corn & \datenoyear{15}{1} to \datenoyear{15}{2} & \datenoyear{1}{6} \\
+    Sorghum & \datenoyear{15}{1} to \datenoyear{15}{2} & \datenoyear{1}{6} \\
+    Poroto & \datenoyear{15}{1} to \datenoyear{20}{2} & \datenoyear{10}{5} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\end{frame}
+
 
 \subsection{Kansas Crop Signatures}
+\begin{frame}{Kansas Crop Signatures}
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{Graphics/KSclustered.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Kansas Crop Signatures}
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{plots/allsigsKS.pgf}
+  \caption{Crop Signatures Extracted from the Kansas TSI Crop Clusters}
+  %Shown are the seven crop signatures extracted from the Kansas study site's TSI using the k-means clusters. Notice how all three corn signatures occur earlier in the year than the soy or sorghum signatures, but otherwise look similar to the soy signatures. The temporal separation assists with classification. The Soy\_1 signature is strange in appearance; it does not look anything like a typical soy signature. Over this date range, the Sorghum\_1 signature looses much of its downslope at the end of its growth.
+\end{figure}
+
+\end{frame}
+
 
 \subsection{Kansas Verification}
 
