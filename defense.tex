@@ -344,7 +344,7 @@ Time Series Image (TSI)
 \end{itemize}
 
 \column{0.5\linewidth}
-
+  \includegraphics[width=1.1\textwidth,right]{Graphics/tsi_bands_2.pdf}
 \end{columns}
 \end{frame}
 
@@ -831,6 +831,15 @@ Top crops in Pellegrini, 2001 to 2005
 \end{figure}
 \end{frame}
 
+\begin{frame}{Strange Kansas Corn Signatures}
+\begin{figure}
+  \centering
+  \resizebox{0.7\textwidth}{!}{\input{plots/weirdsigs2.pgf}}
+  %\caption{Selected Examples of Strange Signatures from Pixels Labeled Corn in the CDL}
+  %Each of these signatures was extracted from a pixel labeled corn by the CDL that was not accurately classified in the Round 3 testing. The signatures of pixels 1, 2, 3, and 5 share features on a few key dates, but diverge on others. None of these four is remotely similar in appearance to corn. In fact, the two peaks, around DOY 97 and DOY 161, suggest some sort of double crop rotation. The only signature similar to corn is that of pixel 4, which only departs from the corn reference signature around DOY 257. After that date it sharply increases to an end-of-year peak, suggestive of winter wheat planting for the following year.
+\end{figure}
+\end{frame}
+
 
 \subsection{Kansas Verification}
 \begin{frame}{Kansas Verification Classification}
@@ -919,7 +928,7 @@ Top crops in Pellegrini, 2001 to 2005
 \begin{frame}{Pellegrini Classification}
 \begin{table}
   \centering
-  \caption{Pellegrini Best Classification RMSE Thresholds}
+  \caption{\parbox{4in}{\centering~Pellegrini Best Classification\\RMSE Thresholds}}
   \begin{tabular}{lr}
     \toprule
     \Book{Signature} & \Book{Threshold Value} \\
@@ -944,6 +953,53 @@ Top crops in Pellegrini, 2001 to 2005
   %Comparing this map to the ground truth in \cref{map:pellegrini:groundtruth} on \cpageref{map:pellegrini:groundtruth}, one can see how well the classification was able to separate soy and corn fields from the other classes. However, those fields are overwhelmingly classified as corn, suggesting major class confusion between the two. 
 \end{figure}
 \end{frame}
+
+\begin{frame}{Pellegrini Classification}
+\begin{table}
+  \scriptsize
+  \centering
+  \caption{Pellegrini Classification Checked Against All Pure Pixels}
+  \begin{tabular}{rrrrrrrl}
+    \toprule
+     & & \multicolumn{4}{c}{\textbf{Reference Data}} & & \\
+     &  & Corn & Soy & Sorghum & Other & Total & User Acc. \\
+    \midrule
+    \multirow{4}{*}{\rotatebox{90}{\textbf{Classified}}} & Corn & 3283 & 2076 & 61 & 1201 & 6621 & 49.58\% \\
+     & Soy & 189 & 313 & 36 & 458 & 996 & 31.43\% \\
+     & Sorghum & 0 & 0 & 0 & 0 & 0 & 0.00\% \\
+     & Other & 2234 & 1523 & 60 & 74387 & 78204 & 95.12\% \\
+    \addlinespace
+     & Total & 5706 & 3912 & 157 & 76046 & 85821 &  \\
+    \addlinespace
+    \multicolumn{2}{r}{Producer Acc.} & 57.54\% & 8.00\% & 0.00\% & 97.82\% &  &  \\
+    \addlinespace
+    \multicolumn{8}{r}{Overall Accuracy: 90.87\%} \\
+    \multicolumn{8}{r}{Kappa: 0.51} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Pellegrini Classification}
+\begin{table}
+  \scriptsize
+  \centering
+  \caption{\parbox{4in}{\small\centering~Pellegrini Corn and Soy Confusion with\\Other Land Cover Classes}}
+  \begin{tabular}{lSSS[table-figures-decimal=2]SS[table-figures-decimal=2]}
+    \toprule
+    \multirow{2}{*}{\textbf{Land Cover}} & \multirow{2}{*}{\parbox{0.35in}{\raggedleft\textbf{Total Pixels}}} & \multirow{2}{*}{\parbox{0.53in}{\raggedleft\textbf{Confused as Corn}}} & \multirow{2}{*}{\parbox{0.5in}{\raggedleft\textbf{Percent of Total}}} & \multirow{2}{*}{\parbox{0.53in}{\raggedleft\textbf{Confused as Soy}}} & \multirow{2}{*}{\parbox{0.5in}{\raggedleft\textbf{Percent of Total}}} \\
+     & & & & \\
+    \midrule
+    Forested & 63978 & 194 & 0.30 & 26 & 0.04 \\
+    Other & 5393 & 306 & 5.67 & 322 & 5.97 \\
+    Pasture & 5252 & 396 & 7.54 & 50 & 0.95 \\
+    Poroto & 1369 & 303 & 22.13 & 59 & 4.31 \\
+    Nothing & 485 & 2 & 0.41 & 1 & 0.21 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\end{frame}
+
 
 
 % CONCLUSION
