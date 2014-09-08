@@ -36,6 +36,8 @@
 
 \usepackage[overload]{textcase} %provides capitalization protection via \NoCaseChange tag
 
+%\usepackage{tikz}
+%\usepackage{tikzscale}
 \usepackage{pgf}  % for plots
 \usepackage{setspace}
 
@@ -91,6 +93,9 @@ xrightmargin=0.5em
 \usepackage{booktabs}
 \usepackage{multicol}
 \usepackage{multirow}
+\usepackage{colortbl}
+
+\newcommand{\alerttab}[2]{\action<#1-|alert@#1>{#2}}% first argument: slide number to appear from, second argument: content of cell
 
 % Custom column types
 \usepackage{array}
@@ -811,26 +816,134 @@ Top crops in Pellegrini, 2001 to 2005
 
 \subsection{Kansas Crop Signatures}
 \begin{frame}{Kansas Crop Signatures}
-\begin{figure}
+\visible<2->{\begin{figure}
   \centering
   \includegraphics[width=\textwidth]{Graphics/KSclustered.pdf}
-\end{figure}
+\end{figure}}
 \end{frame}
 
 \begin{frame}{Kansas Crop Signatures}
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{plots/allsigsKS.pgf}
-  \caption{Crop Signatures Extracted from the Kansas TSI Crop Clusters}
+  \resizebox{0.65\textwidth}{!}{\input{plots/allsigsKS.pgf}}
+  %\caption{Kansas Crop Signatures}
   %Shown are the seven crop signatures extracted from the Kansas study site's TSI using the k-means clusters. Notice how all three corn signatures occur earlier in the year than the soy or sorghum signatures, but otherwise look similar to the soy signatures. The temporal separation assists with classification. The Soy\_1 signature is strange in appearance; it does not look anything like a typical soy signature. Over this date range, the Sorghum\_1 signature looses much of its downslope at the end of its growth.
 \end{figure}
-
 \end{frame}
 
 
 \subsection{Kansas Verification}
+\begin{frame}{Kansas Verification Classification}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.55\textwidth]{Graphics/KSclass.pdf}
+  %\caption[]{Kansas Summer 2012 Classification}
+  %These are the results of classifying the summer 2012 Kansas TSI using corn, soy, and sorghum signatures. Incorrectly classified pixels are shown outlined in red. Omitted mixels were not symbolized, and appear white like the background.
+\end{figure}
+\end{frame}
 
-\subsection{Argentina Classification}
+\begin{frame}{Kansas Verification Classification}
+\begin{table}
+  \scriptsize
+  \centering
+  \caption{Summer 2012 Kansas Classification Accuracy}
+  \begin{tabular}{rrrrrrrl}
+    \toprule
+    & & \multicolumn{4}{c}{\textbf{Reference Data}} & & \\
+     &  & Corn & Soy & Sorghum & Other & Total & User Acc. \\
+    \midrule
+    \multirow{4}{*}{\rotatebox{90}{\textbf{Classified}}} & Corn & 369 & 65 & 5 & 17 & 456 & 80.92\% \\
+     & Soy & 32 & 273 & 10 & 47 & 362 & 75.41\% \\
+     & Sorghum & 0 & 0 & 2 & 6 & 8 & 25.00\% \\
+     & Other & 13 & 16 & 1 & 503 & 533 & 94.37\% \\
+    \addlinespace
+     & Total & 414 & 354 & 18 & 573 & 1359 &  \\
+    \addlinespace
+    \multicolumn{2}{r}{Producer Acc.} & 89.13\% & 77.12\% & 11.11\% & 87.78\% &  &  \\
+    \addlinespace
+    \multicolumn{8}{r}{Overall Accuracy: 84.40\%} \\
+    \multicolumn{8}{r}{Kappa: 0.76} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Kansas Verification Classification}
+\begin{table}
+  \centering
+  \caption{\parbox{2in}{\centering~Kansas Classification RMSE Thresholds}}
+  \begin{tabular}{lr}
+    \toprule
+    \Book{Signature} & \Book{Threshold Value} \\
+    \midrule
+    Corn\_1 & 1000 \\
+    Corn\_2 & 750 \\
+    \action<1-|alert@2>{Corn\_3} & \action<1-|alert@2>{500} \\
+    Soy\_1 & 750 \\
+    Soy\_2 & 1300 \\
+    \action<1-|alert@2>{Soy\_3} & \action<1-|alert@2>{500} \\
+    \action<1-|alert@2>{Sorghum} & \action<1-|alert@2>{450} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\end{frame}
+
+
+\subsection{Pellegrini Classification}
+\begin{frame}{Pellegrini Classification}
+\begin{table}
+  \scriptsize
+  \centering
+  \caption{Summer 2014 Pellegrini Classification Accuracy}
+  \begin{tabular}{rrrrrrrl}
+    \toprule
+     & & \multicolumn{4}{c}{\textbf{Reference Data}} & & \\
+     &  & Corn & Soy & Sorghum & Other & Total & User Acc. \\
+    \midrule
+    \multirow{4}{*}{\rotatebox{90}{\textbf{Classified}}} & Corn & 24 & 13 & 0 & 8 & 45 & 53.33\% \\
+     & Soy & 0 & 2 & 1 & 2 & 5 & 40.00\% \\
+     & Sorghum & 0 & 0 & 0 & 0 & 0 & 0.00\% \\
+     & Other & 12 & 9 & 1 & 306 & 328 & 93.29\% \\
+    \addlinespace
+     & Total & 36 & 24 & 2 & 316 & 378 &  \\
+    \addlinespace
+    \multicolumn{2}{r}{Producer Acc.} & 66.67\% & 8.33\% & 0.00\% & 96.84\% &  &  \\
+    \addlinespace
+    \multicolumn{8}{r}{Overall Accuracy: 87.83\%} \\
+    \multicolumn{8}{r}{Kappa: 0.54} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Pellegrini Classification}
+\begin{table}
+  \centering
+  \caption{Pellegrini Best Classification RMSE Thresholds}
+  \begin{tabular}{lr}
+    \toprule
+    \Book{Signature} & \Book{Threshold Value} \\
+    \midrule
+    Corn\_1 & 550 \\
+    Corn\_2 & 850 \\
+    \action<1-|alert@2>{Corn\_3} & \action<1-|alert@2>{0} \\
+    \action<1-|alert@2>{Soy\_1} & \action<1-|alert@2>{0} \\
+    Soy\_2 & 600 \\
+    Soy\_3 & 950 \\
+    \action<1-|alert@2>{Sorghum\_1} & \action<1-|alert@2>{0} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Pellegrini Classification}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.53\textwidth]{Graphics/ARclassed.pdf}
+  %\caption[Pellegrini Summer 2014 Classification]{Pellegrini Summer 2014 Classification}
+  %Comparing this map to the ground truth in \cref{map:pellegrini:groundtruth} on \cpageref{map:pellegrini:groundtruth}, one can see how well the classification was able to separate soy and corn fields from the other classes. However, those fields are overwhelmingly classified as corn, suggesting major class confusion between the two. 
+\end{figure}
+\end{frame}
 
 
 % CONCLUSION
