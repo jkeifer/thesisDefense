@@ -241,9 +241,6 @@ Can I...
 \begin{itemize}
   \item<1-> Soy production highly mechanized
   \item<2-> Over 99 percent of Argentine soy is genetically modified
-  \begin{itemize}
-    \item<2-> Resistance to glyphosate = heavy pesticide use
-  \end{itemize}
   %\vspace{\baselineskip}
   \item<3-> \alert<4->{Capital requirements cut out small producers}
 \end{itemize}
@@ -252,7 +249,7 @@ Can I...
 \begin{frame}{Soy and its Effects}
 \begin{itemize}
   \item<1-> Prevailing perception that soy drives deforestation
-  \item<2-> Deforestation research has neglected to analyze specific crop cover
+  \item<2-> Research has neglected to analyze specific crop cover
 \end{itemize}
 \end{frame}
 
@@ -285,7 +282,7 @@ Can I...
  \visible<2->{\begin{itemize}
   \item<2-> is a ratioing index
   \item<3-> minimizes multiplicative noise
-  \item<4-> has issues with non-linearity and additive noise
+  \item<4-> has issues with non-linearity% and additive noise
 \end{itemize}}
 \end{frame}
 
@@ -313,8 +310,8 @@ Can I...
 \setbeamercolor{block body}{bg=hsrmSec2Comp}
 \begin{block}{Questions}
 \begin{itemize}
-  \item What if two crops have similar VI values on a single date?
-  \item How does one determine a crop's VI values?
+  \item[1.] What if two crops have similar VI values on a single date?
+  \item[2.] How does one determine a crop's VI values?
 \end{itemize}
 \end{block}
 \endgroup}
@@ -324,7 +321,7 @@ Can I...
 \begingroup
 \setbeamercolor{block title}{bg=hsrmSec2CompDark}
 \setbeamercolor{block body}{bg=hsrmSec2Comp}
-\begin{block}{Question}
+\begin{block}{Question 1}
 What if two crops have similar VI values on a single date?
 \end{block}
 \endgroup
@@ -336,9 +333,8 @@ Use imagery from multiple dates.
 \begin{frame}{Time Series Images}
 NASA's Moderate Resolution Imaging Spectroradiometer (MODIS) Sensor
 \begin{itemize}
-  \item<1-> Terra and Aqua satellites
-  \item<2-> Each images the Earth once per day
-  \item<3-> Composite 16-day NDVI imagery at 250-meter resolution
+  \item<1-> Terra and Aqua satellites image Earth once per day
+  \item<2-> Composite 16-day NDVI imagery at 250-meter resolution
 %  \begin{itemize}
 %    \item<3-> Both NDVI and EVI data
 %  \end{itemize}
@@ -361,8 +357,15 @@ Time Series Image (TSI)
 \end{columns}
 \end{frame}
 
+\begin{frame}{Crop Temporal Signatures}
+\begin{figure}
+  \centering
+  \includegraphicscopyright[width=0.85\linewidth]{Graphics/wardlowCropSignatures.png}{\autocite[From][]{wardlow2005state-level}}
+\end{figure}
+\end{frame}
+
 \begin{frame}{Time Series Images}
-\begin{block}{Key Points}
+\begin{block}{TSI Key Points}
 \begin{itemize}
   \item A TSI pixel shows VI values over time
   \item Each crop's phenology exhibits a unique temporal signature
@@ -371,19 +374,12 @@ Time Series Image (TSI)
 %\visible<3->{\alert<3>{Sounds like hyperspectral remote sensing, where each pixel shows reflectance over the spectrum, and materials have unique spectral signatures...}}
 \end{frame}
 
-\begin{frame}{Crop Temporal Signatures}
-\begin{figure}
-  \centering
-  \includegraphicscopyright[width=0.85\linewidth]{Graphics/wardlowCropSignatures.png}{\autocite[From][]{wardlow2005state-level}}
-\end{figure}
-\end{frame}
-
 \subsection{Phenological Classification}
 \begin{frame}{Phenological Classification}
 \begingroup
 \setbeamercolor{block title}{bg=hsrmSec2CompDark}
 \setbeamercolor{block body}{bg=hsrmSec2Comp}
-\begin{block}{Question}
+\begin{block}{Question 2}
   How does one determine a crop's VI values?
 \end{block}
 \endgroup
@@ -398,8 +394,8 @@ Time Series Image (TSI)
 \begin{alertblock}{Problem}  What if you don’t have training sites?\end{alertblock}
 \end{frame}
 
-\begin{frame}{Time Series Images}
-\begin{block}{Key Points}
+\begin{frame}{Phenological Classification}
+\begin{block}{TSI Key Points}
 \begin{itemize}
   \item A TSI pixel shows VI values over time
   \item Each crop's phenology exhibits a unique temporal signature
@@ -410,7 +406,7 @@ Time Series Image (TSI)
 \visible<2->{\alert{\Medium~Sounds a lot like hyperspectral remote sensing...}}
 \end{frame}
 
-\begin{frame}{Time Series Images}
+\begin{frame}{Phenological Classification}
 \begingroup
 \setbeamercolor{block title}{bg=hsrmSec2CompDark}
 \setbeamercolor{block body}{bg=hsrmSec2Comp}
@@ -420,7 +416,7 @@ Time Series Image (TSI)
 \endgroup
 \end{frame}
 
-\begin{frame}{Time Series Images}
+\begin{frame}{Phenological Classification}
 \begin{figure}
   \centering
   \includegraphics[width=0.7\linewidth]{Graphics/transformations.pdf}
@@ -446,6 +442,7 @@ where
 \begin{itemize}
   \item $n$ is the number of dates in the TSI
   \item $f(x)$ is the temporal signature for a given pixel in a dataset
+  \item $s$ is the imagery interval in days
   \item $x$ is the DOY, as defined by $j(y)$
 \end{itemize}
 \end{frame}
@@ -475,7 +472,7 @@ where
 \begin{frame}{TSF Method}
 \begin{block}{TSF Equation 1}
   \begin{equation*}
-    RMSE = \biggl[\frac{1}{365/s}\sum_{x\ =\ j(0),\ j(1)\ldots}^{n}\bigl(f\left(x\right)-g\left(x\right)\bigr)^{2}\biggr]^{\frac{1}{2}}
+    RMSE = \biggl[\frac{1}{365/s}\sum_{x\ =\ j(1),\ j(2)\ldots}^{n}\bigl(f\left(x\right)-g\left(x\right)\bigr)^{2}\biggr]^{\frac{1}{2}}
   \end{equation*}
 \end{block}
 \vspace{0.5\baselineskip}
@@ -544,7 +541,7 @@ Minimizing Equation 1 with appropriate constraints on $yscale$, $xscale$, and $t
 
 \begin{frame}{Department of Pellegrini}
   \begin{figure}
-    \includegraphics[width=1.0\textwidth]{Graphics/pellegrini75to14_landscape.pdf}
+    \includegraphics[width=1.1\textwidth,center]{Graphics/pellegrini75to14_landscape.pdf}
   \end{figure}
 \end{frame}
 
@@ -627,9 +624,9 @@ Top crops in Pellegrini, 2001 to 2005
     \item Identify phenological groups using k-means clustering
     \item Extract pixel values for each group and average
   \end{enumerate}
-  \item Fit the Kansas signatures to the Kansas TSI using the TSF method
+  \item Use TSF to fit Kansas signatures to the Kansas TSI
   \item Classify the Kansas RMSE rasters and assess accuracy
-  \item Fit the Kansas signatures to the Argentina TSI
+  \item Use TSF to fit Kansas signatures to the Argentina TSI
   \item Classify the Argentina RMSE rasters and assess accuracy
 \end{enumerate}
 \end{frame}
@@ -900,11 +897,11 @@ Top crops in Pellegrini, 2001 to 2005
     \midrule
     Corn\_1 & 1000 \\
     Corn\_2 & 750 \\
-    \action<1-|alert@2>{Corn\_3} & \action<1-|alert@2>{500} \\
+    Corn\_3 & 500 \\
     Soy\_1 & 750 \\
     Soy\_2 & 1300 \\
-    \action<1-|alert@2>{Soy\_3} & \action<1-|alert@2>{500} \\
-    \action<1-|alert@2>{Sorghum} & \action<1-|alert@2>{450} \\
+    Soy\_3 & 500 \\
+    Sorghum & 450 \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -1056,20 +1053,13 @@ Python tools with command line interfaces:
  
 
 \section{Initial Testing}
+
+\subsection{Testing Overview}
 \begin{frame}{Initial Testing sites}
 \begin{figure}
   \centering
   \includegraphics[width=0.85\textwidth]{Graphics/Testing/STUDYSITES.pdf}
 \end{figure}
-\end{frame}
-
-\begin{frame}{Initial Testing Questions}
-How is classification accuracy affected by:
-\begin{itemize}
-  \item The spatial distribution of pixels chosen to create the reference curves.
-  \item The temporal distribution of pixels chosen to create the reference curves.
-  \item The VI used for the classification.
-\end{itemize}
 \end{frame}
 
 \begin{frame}{Initial Testing Procedure}
@@ -1083,7 +1073,17 @@ How is classification accuracy affected by:
 \end{itemize}
 \end{frame}
 
+
 \subsection{Round 1 Testing}
+\begin{frame}{Initial Testing Questions}
+How is classification accuracy affected by:
+\begin{itemize}
+  \item The spatial distribution of pixels chosen to create the reference curves.
+  \item The temporal distribution of pixels chosen to create the reference curves.
+  \item The VI used for the classification.
+\end{itemize}
+\end{frame}
+
 \begin{frame}{Round 1 Testing -- Possible Results}
 \begin{enumerate}
   \item Reference signatures are usable between study sites, but averaging multiple sites increases classification accuracy.
