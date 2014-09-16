@@ -10,7 +10,7 @@
 % Description    : Thesis defense slides. Uses a modified version of the
 %                  HSRMbeamertheme by Benjamin Weiss.
 
-\documentclass[draft,compress,xcolor={usenames,dvipsnames}]{beamer}
+\documentclass[  compress,xcolor={usenames,dvipsnames}]{beamer}
 
 % if handout option for beamer, make 4-up landscape
 \mode<handout>{%
@@ -161,6 +161,7 @@ xrightmargin=0.5em
 %--------------------------------------------------------------------------
 
 \section*{Questions}
+\subsection*{Questions}
 
 \begin{frame}{Research Questions}
 
@@ -178,6 +179,7 @@ Can I...
 % Table of contents
 %--------------------------------------------------------------------------
 \section*{Outline}
+\subsection*{Outline}
 \begin{frame}{Outline}
   % hideallsubsections ist empfehlenswert für längere Präsentationen
   \tableofcontents[hideallsubsections]
@@ -241,8 +243,7 @@ Can I...
 \begin{itemize}
   \item<1-> Soy production highly mechanized
   \item<2-> Over 99 percent of Argentine soy is genetically modified
-  %\vspace{\baselineskip}
-  \item<3-> \alert<4->{Capital requirements cut out small producers}
+  \item<3-> Capital requirements cut out small producers
 \end{itemize}
 \end{frame}
 
@@ -253,7 +254,7 @@ Can I...
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Goal 1}\begin{block}{Goal}  Develop a crop mapping toolset which is efficient\\and economical\end{block}
+\begin{frame}{Soy and its Effects}\begin{block}{Goal}  Develop a crop mapping toolset which is efficient\\and economical\end{block}
 \vspace{\baselineskip}
  \visible<2->{Why is this important?
 \begin{itemize}
@@ -310,8 +311,8 @@ Can I...
 \setbeamercolor{block body}{bg=hsrmSec2Comp}
 \begin{block}{Questions}
 \begin{itemize}
-  \item[1.] What if two crops have similar VI values on a single date?
-  \item[2.] How does one determine a crop's VI values?
+  \item[\cSans{1.}] What if two crops have similar VI values on a single date?
+  \item[\cSans{2.}] How does one determine a crop's VI values?
 \end{itemize}
 \end{block}
 \endgroup}
@@ -333,8 +334,8 @@ Use imagery from multiple dates.
 \begin{frame}{Time Series Images}
 NASA's Moderate Resolution Imaging Spectroradiometer (MODIS) Sensor
 \begin{itemize}
-  \item<1-> Terra and Aqua satellites image Earth once per day
-  \item<2-> Composite 16-day NDVI imagery at 250-meter resolution
+  \item<2-> Terra and Aqua satellites image Earth once per day
+  \item<3-> Composite 16-day NDVI imagery at 250-meter resolution
 %  \begin{itemize}
 %    \item<3-> Both NDVI and EVI data
 %  \end{itemize}
@@ -434,7 +435,7 @@ Two-Step Filter (TSF) method from \textcite{sakamoto2010a-two-step}
 \begin{frame}{TSF Method}
 \begin{block}{TSF Equation 1}
   \begin{equation*}
-    RMSE = \biggl[\frac{1}{365/s}\sum_{x\ =\ j(0),\ j(1)\ldots}^{n}\bigl(f\left(x\right)-g\left(x\right)\bigr)^{2}\biggr]^{\frac{1}{2}}
+    RMSE = \biggl[\frac{1}{n}\sum_{x\ =\ j(0),\ j(1)\ldots}^{n}\bigl(f\left(x\right)-g\left(x\right)\bigr)^{2}\biggr]^{\frac{1}{2}}
   \end{equation*}
 \end{block}
 \vspace{0.5\baselineskip}
@@ -442,7 +443,6 @@ where
 \begin{itemize}
   \item $n$ is the number of dates in the TSI
   \item $f(x)$ is the temporal signature for a given pixel in a dataset
-  \item $s$ is the imagery interval in days
   \item $x$ is the DOY, as defined by $j(y)$
 \end{itemize}
 \end{frame}
@@ -472,13 +472,13 @@ where
 \begin{frame}{TSF Method}
 \begin{block}{TSF Equation 1}
   \begin{equation*}
-    RMSE = \biggl[\frac{1}{365/s}\sum_{x\ =\ j(1),\ j(2)\ldots}^{n}\bigl(f\left(x\right)-g\left(x\right)\bigr)^{2}\biggr]^{\frac{1}{2}}
+    RMSE = \biggl[\frac{1}{n}\sum_{x\ =\ j(1),\ j(2)\ldots}^{n}\bigl(f\left(x\right)-g\left(x\right)\bigr)^{2}\biggr]^{\frac{1}{2}}
   \end{equation*}
 \end{block}
 \vspace{0.5\baselineskip}
-Minimizing Equation 1 with appropriate constraints on $yscale$, $xscale$, and $tshift$ will find the fit of a a reference signature to a pixel.
+Minimizing Equation 1 with appropriate constraints on $yscale$, $xscale$, and $tshift$ will find the fit of a reference signature to a pixel.
 
-\alert<2>{The signature with the lowest RMSE provides the most probable identification.}
+\visible<2>{\alert{The signature with the lowest RMSE provides the most probable identification.}}
 \end{frame}
 
 \begin{frame}{Phenological Classification}
@@ -512,24 +512,22 @@ Minimizing Equation 1 with appropriate constraints on $yscale$, $xscale$, and $t
 \end{columns}
 \end{frame}
 
-\begin{frame}{Kansas Study Area}
-\begin{table}
-  \centering
-  \caption[Kansas Study Site Planting Dates]{\parbox{2.5in}{\centering~Kansas Study Site Planting Dates \scriptsize\autocite[adapted from][]{shroyer1996kansas}}}
-  \begin{tabular}{L{.75in} R{1.75in}}
-    \toprule
-    \Book{Crop} & \Book{Planting Date Range} \\
-    \midrule
-    Wheat & \datenoyear{25}{9} to \datenoyear{20}{10} \\
-    Corn & \datenoyear{1}{4} to \datenoyear{10}{5} \\
-    Sorghum & \datenoyear{15}{5} to \datenoyear{20}{6} \\
-    Soybeans & \datenoyear{5}{5} to \datenoyear{10}{6} \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-\end{frame}
-
+%\begin{frame}{Kansas Study Area}
+%\begin{table}
+%  \centering
+%  \caption[Kansas Study Site Planting Dates]{\parbox{2.5in}{\centering~Kansas Study Site Planting Dates \scriptsize\autocite[adapted from][]{shroyer1996kansas}}}
+%  \begin{tabular}{L{.75in} R{1.75in}}
+%    \toprule
+%    \Book{Crop} & \Book{Planting Date Range} \\
+%    \midrule
+%    Wheat & \datenoyear{25}{9} to \datenoyear{20}{10} \\
+%    Corn & \datenoyear{1}{4} to \datenoyear{10}{5} \\
+%    Sorghum & \datenoyear{15}{5} to \datenoyear{20}{6} \\
+%    Soybeans & \datenoyear{5}{5} to \datenoyear{10}{6} \\
+%    \bottomrule
+%  \end{tabular}
+%\end{table}
+%\end{frame}
 
 
 \subsection{Pellegrini}
@@ -686,17 +684,28 @@ Top crops in Pellegrini, 2001 to 2005
 \end{frame}
 
 \begin{frame}{3. Extract crop signatures}
-\begin{enumerate}
-  \item[3.3] Extract pixel values for each group and average
-  \begin{itemize}
-    \item<1-> Pixels from each k-means cluster converted to points
-    \item<2-> PCLT to find mean values from points
+\begin{columns}
+\column{0.35\linewidth}
+  \begin{minipage}{1.4\textwidth}
+  \begin{enumerate}
+    \item[3.3] Extract pixel values for each group and average
     \begin{itemize}
-      \item<2-> Produces .ref signature files
+      \item<1-> Pixels from each k-means cluster converted to points
+      \item<2-> PCLT to find mean values from points
+      \begin{itemize}
+        \item<2-> Produces .ref signature files
+      \end{itemize}
     \end{itemize}
-  \end{itemize}
-\end{enumerate}
-\visible<3->{\centering~Now we have crop signatures!}
+  \end{enumerate}
+  \visible<3->{\centering~Now we have crop signatures!}
+  \end{minipage}
+\column{0.55\linewidth}
+  \begin{figure}
+    \raggedleft
+    \resizebox{\textwidth}{!}{\input{plots/firstsoyKS.pgf}}
+    %\caption{Soy Sampled Pixel Signatures and Mean Signature}
+  \end{figure}
+\end{columns}
 \end{frame}
 
 \begin{frame}{Fitting Signatures}
@@ -852,17 +861,17 @@ Top crops in Pellegrini, 2001 to 2005
 
 
 \subsection{Kansas Verification}
-\begin{frame}{Kansas Verification Classification}
-\begin{figure}
-  \centering
-  \includegraphics[width=0.55\textwidth]{Graphics/KSclass.pdf}
-  %\caption[]{Kansas Summer 2012 Classification}
-  %These are the results of classifying the summer 2012 Kansas TSI using corn, soy, and sorghum signatures. Incorrectly classified pixels are shown outlined in red. Omitted mixels were not symbolized, and appear white like the background.
-\end{figure}
-\end{frame}
+%\begin{frame}{Kansas Verification Classification}
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=0.55\textwidth]{Graphics/KSclass.pdf}
+%  %\caption[]{Kansas Summer 2012 Classification}
+%  %These are the results of classifying the summer 2012 Kansas TSI using corn, soy, and sorghum signatures. Incorrectly classified pixels are shown outlined in red. Omitted mixels were not symbolized, and appear white like the background.
+%\end{figure}
+%\end{frame}
 
 \begin{frame}{Kansas Verification Classification}
-\begin{table}
+\visible<2>{\begin{table}
   \scriptsize
   \centering
   \caption{Summer 2012 Kansas Classification Accuracy}
@@ -884,13 +893,16 @@ Top crops in Pellegrini, 2001 to 2005
     \multicolumn{8}{r}{Kappa: 0.76} \\
     \bottomrule
   \end{tabular}
-\end{table}
+\end{table}}
 \end{frame}
 
 \begin{frame}{Kansas Verification Classification}
+\begin{columns}
+\column{0.37\linewidth}
 \begin{table}
+  \scriptsize
   \centering
-  \caption{\parbox{2in}{\centering~Kansas Classification RMSE Thresholds}}
+  \caption{\parbox{1.75in}{\footnotesize\centering~Kansas Classification RMSE Thresholds}}
   \begin{tabular}{lr}
     \toprule
     \Book{Signature} & \Book{Threshold Value} \\
@@ -905,12 +917,20 @@ Top crops in Pellegrini, 2001 to 2005
     \bottomrule
   \end{tabular}
 \end{table}
+\column{0.53\linewidth}
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{Graphics/KSclass.pdf}
+  %\caption[]{Kansas Summer 2012 Classification}
+  %These are the results of classifying the summer 2012 Kansas TSI using corn, soy, and sorghum signatures. Incorrectly classified pixels are shown outlined in red. Omitted mixels were not symbolized, and appear white like the background.
+\end{figure}
+\end{columns}
 \end{frame}
 
 
 \subsection{Pellegrini Classification}
 \begin{frame}{Pellegrini Classification}
-\begin{table}
+\visible<2>{\begin{table}
   \scriptsize
   \centering
   \caption{Summer 2014 Pellegrini Classification Accuracy}
@@ -932,7 +952,7 @@ Top crops in Pellegrini, 2001 to 2005
     \multicolumn{8}{r}{Kappa: 0.54} \\
     \bottomrule
   \end{tabular}
-\end{table}
+\end{table}}
 \end{frame}
 
 \begin{frame}{Pellegrini Classification}
@@ -945,11 +965,14 @@ Top crops in Pellegrini, 2001 to 2005
     \midrule
     Corn\_1 & 550 \\
     Corn\_2 & 850 \\
-    \action<1-|alert@2>{Corn\_3} & \action<1-|alert@2>{0} \\
-    \action<1-|alert@2>{Soy\_1} & \action<1-|alert@2>{0} \\
+    %\action<1-|alert@2>{Corn\_3} & \action<1-|alert@2>{0} \\
+    %\action<1-|alert@2>{Soy\_1} & \action<1-|alert@2>{0} \\
+    Corn\_3 & 0 \\
+    Soy\_1 & 0 \\
     Soy\_2 & 600 \\
     Soy\_3 & 950 \\
-    \action<1-|alert@2>{Sorghum\_1} & \action<1-|alert@2>{0} \\
+    Sorghum\_1 & 0 \\
+    %\action<1-|alert@2>{Sorghum\_1} & \action<1-|alert@2>{0} \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -1010,10 +1033,47 @@ Top crops in Pellegrini, 2001 to 2005
 \end{table}
 \end{frame}
 
+\begin{frame}{Pellegrini Classification}
+\begin{figure}
+  \centering
+  \resizebox{0.65\textwidth}{!}{\input{plots/cropsigsAR.pgf}}
+  %\caption{Corn, Soy, and Sorghum Signatures Extracted from the Pellegrini TSI}
+%  These are the signatures from the k-means crop clusters found in the Pellegrini TSI. While some strange exceptions like Soy\_3, Sorghum\_1, and Sorghum\_3 deviate from the rest, the overwhelming similarities between signatures of different crops is striking. Unlike the crop signatures from Kansas, Pellegrini's crops are not temporally separated, but peak almost simultaneously.
+\end{figure}
+\end{frame}
+
+\begin{frame}{Pellegrini Classification}
+\begin{figure}
+  \centering
+  \resizebox{0.65\textwidth}{!}{\input{plots/poroto_pasture_sigsAR.pgf}}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Pellegrini Classification}
+\begin{figure}
+  \centering
+  \resizebox{0.65\textwidth}{!}{\input{plots/othersigsAR.pgf}}
+\end{figure}
+\end{frame}
+
 
 % CONCLUSION
 \section{Conclusion}
 
+\subsection{Conclusion}
+\begin{frame}{Conclusion}
+\begin{figure}
+  \centering
+  \resizebox{0.65\textwidth}{!}{\input{plots/othersigsAR.pgf}}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Conclusion}
+\begin{figure}
+  \centering
+  \resizebox{0.65\textwidth}{!}{\input{plots/othersigsAR.pgf}}
+\end{figure}
+\end{frame}
 
 
 % APPENDIX

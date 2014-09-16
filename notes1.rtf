@@ -15,9 +15,9 @@ Currently, many perceive the demand for agricultural land\'97particularly for so
 Specifically, I came up with three research questions.\
 \
 Can I\'85\
-> develop a phenological classification toolset to facilitate this research?\
+-> develop a phenological classification toolset to facilitate this research?\
 -> can I extract temporal signatures for crops from data for a Kansas study site?\
---> can I classify an Argentina study site using the extracted Kansas crop signatures?\
+-> can I classify an Argentina study site using the extracted Kansas crop signatures?\
 \
 ---OUTLINE---\
 Just briefly before I dive into this, here is a quick outline of my talk.\
@@ -70,5 +70,87 @@ So, this brings me to the goal of this research, the first of my research questi
 -> And with that understanding we could create more effective land management policies, policies targeting the true causes of the deforestation.\
 \
 ---VEGETATION INDICES---\
-Okay, that was the why. But what about the how?\
+Okay, that was the why. But what about the how? Well, that is still a problem. We must be able to classify crops by type\'85how do we do that?\
+\
+-> Before we can solve this problem, we must first recognize that we can abstract crops and other land cover by using a vegetation index, or VI. This can help by providing a single number corresponding to the vegetatedness of pixel in satellite imagery.\
+-> A common VI is the Normalized Difference Vegetation Index, or NDVI, and is what I chose to use for this project.\
+-> NDVI is calculated based on the red and near infrared reflectance, and it theoretically ranges from -1 to 1, -1 being no vegetation and 1 being highly vegetated.\
+-> Because of the division in the calculation, this is a ratioing index\
+-> it therefore has the advantage that the ratioing minimizes multiplicative noise, such as inconsistent illumination in a frame, or sensor gain issues\
+-> However, NDVI does have problems with non-linearity. That is, at high biomass levels it begins to saturate, and the calculated value does not increase linearly with corresponding increases in biomass.\
+\
+-> So now we know we can abstract crops and other land cover using NDVI, but this still does not solve the problem of how to classify crops by type. We know we can use a VI like NDVI to measure vegetatedness, but\
+\
+-> What if two crops have similar VI values on a single date? and, more importantly,\
+-> How can one even determine the VI values corresponding to each crop? Well, let's break these questions down.\
+\
+-> For the first question, the answer is fairly obviously: Use imagery from multiple dates. Thus, as crops tend to develop at different times of the year, one can try to maximize the number of pixels that can be differentiated from one another by comparing the VI values at two or more times throughout the crops' development.\
+\
+---TIME SERIES IMAGES---\
+In fact, we can take this to an extreme and use many dates to build up a stack of image I like to call a Time Series Image. And a great source for the images to build this stack data from NASA's Moderate Resolution Imaging Spectroradiometer Sensor, or the MODIS sensor.\
+-> Two Earth-observing satellites collect MODIS data: Terra and Aqua. Each images most of the Earth at least once per day. A great feature of MODIS data is that it is available in many pre-processed products including\
+-> 16-day NDVI composites with 250-meter resolution from each of the two satellites. The composites are a compilation of the previous 16 days' NDVI values, merged using by the maximum for each pixel. Clouds have low NDVI values, so cloudy areas are often removed entirely as few places on the planet have 16 days of continuous cloud cover.\
+\
+-> Each of these composites can then be stacked to create the TIme Series Images that I mentioned. A TSI is just a multi-band image where each band is one of the composites.\
+-> The composites are stacked sequentially,\
+-> and enough bands are used to cover an entire growing season. Here is an simple example of this shown three dates. The bands are consecutive; what is great about this is that we can plot a pixel's values, and this shows the VI value over time, or the 
+\b temporal signature
+\b0  of the pixel.\
+\
+-> Taking the example a step further, here is a plot of crop temporal signatures found by Wardlow and Egbert in Kansas. I am primarily interested in corn, soy, and sorghum, shown here in yellow, green, and black. Notice how each of these crops has a unique signature; corn peaks before soy, though soy peaks higher. Sorghum has the lowest peak of the three, and its development extends even later into the fall than the others. You can also see what winter wheat looks like in comparison, with it's early spring development.\
+\
+-> So, there are a couple key points to take away from this: (1) A TSI pixel shows VI values over time, and (2) Each crop's phenology---it's development pattern---exhibits a unique temporal signature.\
+\
+-> The second question---how does one determine a crop's VI values---is also answered in the literature.\
+-> That is, research will tell you to use training sites. This makes sense, as training sites are to tell the classifier what each class looks like, an then it can do its business separating an image into classes which match the training sites. But this brings me to the key problem I wish to solve\
+\
+-> How can one classify crops if they don't have training data?\
+\
+Well, let's go back to the key points of TSIs\
+-> TSIs show values over time, and each crop has unique signatures\'85\
+\
+-> This sounds a lot like hyperspectral remote sensing methods where a data cube, or stack of spectral bands, shows reflectance values over the spectrum, and every material has a unique spectral signature\'85\
+\
+-> So an idea: could we use a hyperspectral-like method to fit known crop temporal signatures to unknown pixels?\
+\
+A challenge with this ideas is that spectral reflectance does not vary from place to place or time to time. However, crop development does have locational and inter annual differences.\
+-> That is, three transformations can occur on to a base signature, as shown in this example. The first is a time shift. This would be like what happens when comparing northern hemisphere crops with southern hemisphere one. Because the summers are out of phase with one another, the growing seasons occur at distinctly different times of the year. Here we can see the original signature in red, with the signature of the same crop that was planted much earlier in the year. The temporal signatures are the same shape, just shifted in time.\
+\
+The next example here is horizontal scaling of the signature. This is what happens due to variations in the length of a growing season. A shorter growing season, such as shown in the blue curve here, is compressed, while a longer season like the green curve is stretched.\
+\
+The bottom example demonstrates vertical scaling of a reference signature. This can be thought of as differences in plant health. For example, a field that is abnormally healthy and has larger plants has a higher biomass, and therefore a higher vegetation index value, like the blue curve. However, if the crop does not grow as well, it's VI values will be lower, as exemplified by the purple curve.\
+\
+---TSF METHOD---\
+However, there is a way to account for these three transformation factors and be able to compare two signatures. The mechanism for this comes from Sakamoto et al.'s two step filter, or TSF, methods. The TSF method has two steps, hence it's name, the first of which is to perform a wavelet smoothing of the input signatures, then use some equations to do some curve fitting.\
+\
+Sakamoto et al devised this method to find key dates in a crops phenological development, such as when a crop is germinating or ready for harvest. However, I recognized that this method could actually be used to fit a known reference signature to an unknown pixel.\
+\
+How does this work?\
+-> Well there are a couple equations. This first equation is really just a means to find the root mean square error, or or average difference, between two signatures, f(x) and g(x). f(x) is an unknown pixel in a TSI, and g(x) is a transformed reference signature. What do I mean by this?\
+\
+-> Well, g(x) is given by this second equation. Here we see h(x), which represents the reference temporal signature of a crop, and it is transformed by the tshift, yscale, and xscale parameters. If we go back to this example,\
+-> the t shift is this top transformation, the shift in time, the xscale is the middle transformation, or the horizontal stretching due to changes in growing season length, and the yscale is the bottom transformation representing changes in the maximum value.\
+\
+-> So putting this all together, if we minimize equation 1 with appropriate bounds on these three parameters, we can find the fit of a reference signature to a pixel.\
+\
+-> When we fit multiple signatures to a TSI pixel, we can say the the signature that resulted in the lowest RMSE value provides the most probable identification of the signatures used. This is really important. Why?\
+\
+-> Well, it answers the problem: what if you don't have training sites?\
+-> We can use the TSF equations to classify unknown pixels in a TSI using a library of standard temporal signatures.\
+\
+---STUDY AREAS---\
+Okay, so, now I am going to talk about my study areas.\
+-> My first study area is a small 100 MODIS pixel by 100 MODIS pixel are to the northwest of Wichita, KS, right in the middle of the state. Why Kansas? Well, the top three crops in Kansas are winter wheat, corn, and soy, the last two of which are the two I am primarily interested in. Additionally, a ground truth layer is available for the entire state in the form of the USDA cropland data layer, a 30-meter raster dataset of crop cover and other land covers. Because of this ground truth, I was able to do my testing in this site, and I used location for the extraction of the reference crop signatures used for classifications.\
+\
+-> My Argentina study area that I chose to classify is the department of Pellegrini in the Northwest corner of the province of Santiago del estero, which itself in the northwest of the country. It is bordered on to the southwest by the province of Tucuman, and to the northwest by the province of Salta. It is right on the edge of the frontier; to the east in particular is very undeveloped.\
+\
+-> Because of its frontier nature, I believe development has been fairly limited until recently. This map here shows a composite from 1973 and 1975; aside from a few small areas of degradation due to cattle ranching, deforestation is very limited. However, by 1993 some major deforestation had taken place, mainly spreading in from the southwest due to the early and extensive expansion of agriculture in Tucuman province. Between 1993 and 2001, little changed; only a few areas of increased deforestation are visible. However, between 2001 and this year, a dramatic amount of deforestation has taken place throughout the entire department. I will note here that the yellow dot is the city of Nueva Esperanza, the population center of the department, and my base of operations for my fieldwork.\
+\
+-> Breaking the deforestation down into numbers, between 2001 to 2005, only 6,000 hectares were cleared in Pellegrini. However, between 2006 and 2011, over 75,000 hectares were deforested. This is almost 11% of the land area of the department, and an annual rate of over 15,000 hectares per year\
+-> AN INCREASE OF OVER 1000%! Additionally, of the 75,000 hectares cut in this period, more than half occurred after the passing of the OTBN in 2009, when the Ley de Bosques should have been reducing the rate of deforestation.\
+\
+-> The one study that I did find that classified specific crops in Pellegrini had data for the years 2001 through 2005, over which years the top crops were soy, corn, and winter wheat.\
+\
+---DATA AND METHODS---\
+Okay, so my data and methods. I'm going to begin \
 }
