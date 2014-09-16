@@ -1,0 +1,74 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf400
+{\fonttbl\f0\fnil\fcharset0 Calibri;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww20740\viewh16820\viewkind0
+\deftab720
+\pard\pardeftab720
+
+\f0\fs36 \cf0 ---TITILE SLIDE---\
+\
+Tropical deforestation of rainforests in Latin America has long been known to be serious environmental concern. A large body of literature exists around that topic, and many of its dynamics have been well-researched. However, relatively little attention is paid to subtropical or dry forest deforestation, despite the role of such forests in mitigating climate change and harboring biodiversity.\
+\
+Currently, many perceive the demand for agricultural land\'97particularly for soybeans--to be the largest driver of deforestation in the subtropical forests of Argentina. However, this perception is mostly assumed; the literature has not fully investigated the relationship between the expansion of soybeans and deforestation. It was my initial intention to investigate this connection, but I ran into the issue of how to detect crops by type to see where soy and other crops are being grown. Existing techniques require the development of training sites from a known ground truth, but such data are often unavailable and/or expensive and time consuming to procure. Such was the case for my study site in Argentina. Consequently, I began to consider a new method for classifying crops, specifically a method using multi-day vegetation index imagery that classifies pixels based on their temporal signatures, with the hope that this research might one day provide a means of agricultural classification that does not require ground truth.\
+\
+---RESEARCH QUESTIONS---\
+Specifically, I came up with three research questions.\
+\
+Can I\'85\
+> develop a phenological classification toolset to facilitate this research?\
+-> can I extract temporal signatures for crops from data for a Kansas study site?\
+--> can I classify an Argentina study site using the extracted Kansas crop signatures?\
+\
+---OUTLINE---\
+Just briefly before I dive into this, here is a quick outline of my talk.\
+\
+1) I will begin with some information to set the context of deforestation and soybeans in Argentina in my background section. I will also discuss Vegetation Indices and the theory behind phenological classification.\
+\
+2) Next, I will provide a quick overview of my Kansas and Argentina study areas.\
+\
+3) Third, I will discuss the datasets I used for this analysis and the specific processing I did for this study.\
+\
+4) Fourth, I will show the results from the processing, discussing what they mean as I go along.\
+\
+5) Lastly, I will wrap up my talk with some concluding remarks.\
+\
+---DEFORESTATION IN ARGENTINA---\
+Argentina has experienced extremely high levels of deforestation over the past century. It was remarked that in 1915 over 30% of the country was forested; in 2001 only 10% remained forested.\
+\
+-> An official forest inventory by the Argentine Secretary of Sustainable Development and the Environment found that from 1998 to 2002 over 940,000 hectares were deforested.\
+\
+Such levels of deforestation even concerned lawmakers enough to pass the\
+-> Ley de Bosques (the Forest Act) in November 2007 in an attempt to foster the sustainable management of Argentina\'92s forest resources. The law mandated that native forests be classified, through the Ordenamiento Territorial de los Bosques Nativos (land management order of native forests), into red, yellow, and green areas with varying restrictions.\
+-> Red areas are fully protected from cutting, yellow areas are approved for sustainable use only, and green is without any restriction. The OTBN was passed in 2009.\
+\
+-> At the national level, the law seems as though it may have had a small effect on slowing cutting.\
+\
+[DISCUSS THE TABLE]\
+\
+Total, over 1.5 million hectares were cut in this time period.\
+-> We 
+\i CAN
+\i0  see a marginal decrease in deforestation, but the rate of deforestation remains extremely high. This has led some to question the effect of Ley de Bosques, and I believe demonstrates the need to develop a better understand of the dynamics of the deforestation.  We could then understand why it is occurring and what effects the Ley de Bosques 
+\i IS
+\i0  having.\
+\
+---SOY AND ITS EFFECTS---\
+At the same, soy cultivation has continually increased in Argentina. The National Institute of Statistics and the Census found the extent of soy in country in 1993 to be 5 million hectares. By 2011, that figure had jumped to some 19 million hectares of soy.\
+\
+-> Soy production in Argentina is highly mechanized. That is, farmers are able to use tractors and other farm implements to efficiently manage large fields of soy with minimal labor.\
+-> Additionally, over 99% of Argentine soy is genetically modified, specifically of Monsanto's roundup ready variety. This resistance to glyophosate allows farmers to use substantial amounts of the herbicide to cull weeds, but has led to resistance in the local weed population. Moreover, high amounts of fertilizers are often used with this crop.\
+-> All together, from the cost of the seed, the inputs, and the large expenditure in equipment, small producers cannot compete. To receive a profitable return on investment, farmers must cultivate larger and larger parcels. Only with such economies of scale can they turn profitable.\
+\
+-> As I have mentioned, the prevailing perception in Argentina is that soy is the primary driver of deforestation in the country. However, this perception is largely tentative; \
+-> Research has neglected to to analyze specific crop cover; rather, the vast majority of studies I found in my research classified land cover into general categories, such as forest and agriculture, but did not break down agriculture into specific crop types. Therefore, we have little evidence to point to soy as the source of deforestation as we do not know where it is occurring and what land uses and land covers it is displacing.\
+\
+So, this brings me to the goal of this research, the first of my research questions:\
+-> I need to develop a crop mapping toolset which is efficient and economical. That is, I want a tool that is easy to use and can process publicly available data, and is able to differentiate between different crops, such as corn and soy.\
+\
+-> Why is this important?\
+-> Such a tool would provide that better understanding of the dynamics of deforestation I am seeking\
+-> And with that understanding we could create more effective land management policies, policies targeting the true causes of the deforestation.\
+\
+---VEGETATION INDICES---\
+Okay, that was the why. But what about the how?\
+}
