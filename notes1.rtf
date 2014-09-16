@@ -152,5 +152,84 @@ Okay, so, now I am going to talk about my study areas.\
 -> The one study that I did find that classified specific crops in Pellegrini had data for the years 2001 through 2005, over which years the top crops were soy, corn, and winter wheat.\
 \
 ---DATA AND METHODS---\
-Okay, so my data and methods. I'm going to begin \
+Okay, so my data and methods. I'm going to begin by reviewing my data sources, and then quickly overview my processing workflow.\
+\
+-> I used four types of data for this project. The first were the 250-meter MODIS VI composites I have already discussed.\
+-> The second was the 2012 30-m cropland data layer, which I mentioned I used for ground truth in Kansas.\
+-> Third, I used 30-meter Landsat 8 imagery, primarily for my data collection maps for my Pellegrini fieldwork, and for digitizing the collected data\
+-> Lastly, I used a shapefile of the administrative boundary of pellegrini\
+\
+-> Another dataset I must also mention is the Summer 2014 Pellegrini land cover dataset I collected and digitized. I used this in the Argentina classification procedure.\
+\
+-> Okay, on to my methods. I'll begin reviewing my data collection in Pellegrini. I visited Pellegrini in March and April of this year.\
+Before leaving I randomly generated 400 sample points across the department to sample. These points directed my surveying efforts. I used three main strategies for identifying the land cover at each point:\
+-> Direct observation, interviews with farmers, and satellite image interpretation\
+-> I also tried to gather data on typical agricultural practices and planting/harvesting dates. The dates were key in determining what time period to use when selecting imagery for the TSI.\
+\
+-> My processing workflow had a number of steps, listed here. I am going to quickly go through them and explain what I did.\
+-> Step one was reprojection of each of the MODIS composites using the MODIS Reprojection tool.\
+-> Step 2 was building the TSIs for Kansas and Argentina. To do this I mate a python command line tool which would take the specified images and stack them into single image.\
+-> I chose to focus only on summer crops, so I used data from the Kansas summer of 2012 and the Argentine summer of 2014. Notice that the Argentine summer actually begins at the end of the previous year.\
+-> I had issues with clouds in Argentina, so while all my other data came from the Terra satellite, I had to sub in one composite from the Aqua satellite, and I also had to interpolate one date that I could not get from either satellite.\
+\
+-> The third step was extracting the crop signatures form the Kansas TSI. However, I had to do a number of things to isolate the signatures. First, I had to identify all the pure pixels, or non-mixels, in the study area. To do this, I intersected a vector of the MODIS pixel grid with a vectorized version of the 30-m CDL. Any mixels would have had multiple land covers in the CDL, and would have been broken into smaller pieces, so I selected only those grid cells remaining that were about 98% of the area of a whole MODIS pixel.\
+\
+-> Next, I isolated the pure pixels for each crop. I resample the CDL to match the MODIS grid, then separated out the pixels for each summer crop\
+\
+-> For the third part, I had to identify each crop's unique phenological groups using k-means clustering. I did this in ENVI, and found three clusters for each crop.\
+\
+-> Finally, I extracted the pixel values for each each group and averaged. I created a python tool to do this as well; given a shapefile of points, it will find the mean signature of those points and output a .ref file that has the signature values. This plot here is a simple illustration showing the signatures of a few sample points and their mean.\
+-> So, after this step, we have crop signatures, three for each crop because I found three clusters!\
+\
+-> Okay, back to the main processing steps. The fourth and sixth steps are both the same, just done for each study area. Both times the Kansas signatures are fit to the study area's TSI using the TSF method. I will note that I did not use the wavelet filtering of the TSF, just the curve fitting equations. To implement this, I again created a python command line tool. This tool output a RMSE raster for each signature processed, so three per crop.\
+\
+-> The fifth and seventh steps are also repeated for each study area. These steps produced the final classifications and accuracy assessments. If you remember back to the background, the lowest RMSE value provides an identification for a pixel\
+-> However, not all RMSE values should be considered; that is, even a signature that does not fit a pixel well at all will still produce a measurable RMSE, it will simply be very high.\
+-> Additionally, if not of the signatures tested fit well, then all the RMSE will be high and none will be a good match.\
+\
+-> But what is too high? Where do we draw the line?\
+\
+-> So I came up with a solution to this problem. Kind of. I butte forced though every RMSE threshold combination in a range, classifying the RMSE rasters and assessing the accuracy to find the best combination. Unfortunately, as this method stands, to find the optimum classification, one does need ground truth data for the accuracy assessment component.\
+\
+-> Anyway, for steps 5 and 7 I created another tool to iterate through all the combinations a user specifies, and the tool produces a classification raster and a boolean accuracy raster using the best Error threshold combination.\
+\
+---RESULTS---\
+Okay, I think it is time for some results. I'm going to go through each stage of my analysis, present the results, and discuss the significance.\
+-> Specifically, I'll show you my Pellegrini ground truth and the agricultural practices I found. Then I will discuss the extracted Kansas crop signatures. Fourth, I'll show you the Kansas classification I did to verify the operation of the method and tools, and lastly I will show you the results of the Pellegrini classification.\
+\
+---PELLEGRINI GROUND TRUTH---\
+Of my 400 sample points, I was able to get an id on 378 of them, shown here in the map as the green filled dots. The remaining 22 are red filled. I collected many fields in addition to those that contained points to try and increase the comprehensiveness of my data.\
+\
+DESCRIBE MAP\
+\
+-> I found though talking with local famers that the summer and winter growing seasons in Pellegrini were very distinct and separated, so they do not overlap like in Kansas. As I was only there during the summer season, I only got summer crop ground truth, hence my decision to only classify summer crops. I found key planting dates for the Argentina crops varied from the Kansas dates; as you can see soy is planted before corn in Pellegrini. Poroto, which is a generic name for a number of common beans, is another popular summer crop.  One thing to note is that these date ranges are ideal date ranges; I was told that planting of these crops can occur up to a month later than what is listed, meaning there is greater flexibility in when crops can be planted here than in Kansas.\
+\
+---KANSAS CROP SIGNATURES---\
+If you remember back to my methods discussion, I found three clusters for each of the three summer crops, shown here. You can see that the clusters generally delineated whole fields, which is good, as this supports the hypothesis that crops which undergo the same development should have the same temporal signatures. Notice that only one sorghum cluster was identified due to the small sample size of only 18 pixels.\
+\
+-> This is a plot of the signatures for each crop. The corn signatures are shown in orange, soy is in this blue color, and the lone sorghum signatures is purple. Notice that the corn signatures peak earlier in the year than the soy or sorghum signatures. The soy_1 signature does have a strange appearance, and the sorghum signature is both a bit stange and incomplete. I thought about adding some more dates to the end of this TSI to try to get the downslope on that signature, but I thought I'd run into problems with the emergence of winter wheat.\
+\
+---KANSAS VERIFICATION CLASSIFICATION---\
+For the verification classification, I achieved an 84 % overall accuracy, with a kappa of 0.76, which isn't too bad and is in line with the accuracies found in previous phenological classification studies. I did notice some confusion between corn and soy, and problems with the sorghum classification, as you can see from the low sorghum accuracies.\
+\
+-> This is a table of the RMSE thresholds used from the classification. Notice that sorghum had the lowest threshold, so it was hardly considered in the classification, and why so few pixels were sorghum. The map to the right is the classification; black pixels were classified as other, and all the errors were outlined in red.\
+\
+---THE PELLEGRINI CLASSIFICATION---\
+Here is the confusion matrix of Pellegrini classification made with the Kansas crop signatures. The overall accuracy is even higher, at 88%, but the kappa is much lower at 0.54. It is hard to see exactly why, as it turned out that many of my sample points fell in not corn, soy, or sorghum fields, so the samples are overweighed by the tremendous number in the other class. Even so, one can see that no points were classified as sorghum, and some serious confusion exists between corn and soy.\
+\
+-> Looking at the thresholds used for this classification, the sorghum problem is obvious as a threshold of 0 didn't allow any sorghum pixels to be classifies as such. It is also interesting to note that bit the corn_3 and soy_1 signatures were not used to create the best classification.\
+\
+-> The map of the classification reaffirms the corn-soy confusion problem. If we refer back to the ground truth, we can see that the areas that were classified as corn or soy fit relatively well with the pattern of agriculture in Pellegrini, even if they are not classified separately.\
+\
+-> I decided to perform a second accuracy assessment, checking the classification against all the pixels with positive identifications in the ground truth. This greatly boosted my sample size and helped make a few patterns stand out better. Do this actually make my overall accuracy increase slightly, but the kappa went down. Looking to see why, the confusion between corn and soy is better represented, as is the fact that many corn and soy fields pixels were not classified. Also, we can see some confusion with other land covers; I decided to break this down and found that other summer crops were likely responsible for this much of this confusion.\
+\
+-> To further examine why corn and soy were so unreliably differentiated, I decided to run the same cluster analysis on the Pellegrini TSI to extract the signatures of each crop in the ground truth. The three signatures identified in corn, soy, and sorghum are shown here.\
+\
+DESCRIBE PLOT\
+\
+HERE IS POROTO AND PASTURE AREAS -- POROTO HAS SIMILAR SHAPE\
+\
+LASTLY, FOREST, NOTHING, OTHER\
+\
+---CONCLUSION---\
 }

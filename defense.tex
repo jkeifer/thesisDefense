@@ -637,12 +637,12 @@ Top crops in Pellegrini, 2001 to 2005
 
 \begin{frame}{2. Building the TSI\NoCaseChange{s}}
 \begin{itemize}
-  \item<1-> Python command line tool (PCLT) to stack composites
-  \item<2-> Kansas TSI covered 2012 DOY 97 to 2012 DOY 273
-  \item<3-> Argentina TSI covered 2014 DOY -13 to 2014 DOY 161
+  \item Python command line tool (PCLT) to stack composites
+  \item Kansas TSI covered 2012 DOY 97 to 2012 DOY 273
+  \item Argentina TSI covered 2014 DOY -13 to 2014 DOY 161
   \begin{itemize}
-    \item<4-> Aqua DOY 105 composite used in place of DOY 113 composite
-    \item<4-> DOY 129 interpolated from DOY 105 and DOY 145 composites
+    \item Aqua DOY 105 composite used in place of DOY 113 composite
+    \item DOY 129 interpolated from DOY 105 and DOY 145 composites
   \end{itemize}
 \end{itemize}
 \end{frame}
@@ -652,8 +652,8 @@ Top crops in Pellegrini, 2001 to 2005
   \item[3.1] Identify pure pixels (e.g. non-mixels)
   \begin{itemize}
     % Necessary because mixels do not have pure temporal signatures
-    \item<1-> Intersected MODIS pixel grid with vectorized CDL
-    \item<2-> Selected all features >= 53,000 m$^2$ in area
+    \item Intersected MODIS pixel grid with vectorized CDL
+    \item Selected all features >= 53,000 m$^2$ in area
   \end{itemize}
 \end{enumerate}
 \end{frame}
@@ -662,8 +662,8 @@ Top crops in Pellegrini, 2001 to 2005
 \begin{enumerate}
   \item[3.2] Use the CDL to isolate each crop
   \begin{itemize}
-    \item<1-> Resampled CDL to MODIS grid by majority
-    \item<2-> Isolated the TSI pixels for each crop
+    \item Resampled CDL to MODIS grid by majority
+    \item Isolated the TSI pixels for each crop
       \begin{itemize}
         \item<3-> Corn
         \item<3-> Soy
@@ -677,8 +677,8 @@ Top crops in Pellegrini, 2001 to 2005
 \begin{enumerate}
   \item[3.3] Identify phenological groups using k-means clustering
   \begin{itemize}
-    \item<1-> ENVI k-means tool
-    \item<2-> Three clusters, 1.0\% change threshold, 100 iterations
+    \item ENVI k-means tool
+    \item Three clusters, 1.0\% change threshold, 100 iterations
   \end{itemize}
 \end{enumerate}
 \end{frame}
@@ -686,18 +686,18 @@ Top crops in Pellegrini, 2001 to 2005
 \begin{frame}{3. Extract crop signatures}
 \begin{columns}
 \column{0.35\linewidth}
-  \begin{minipage}{1.4\textwidth}
-  \begin{enumerate}
+  \begin{minipage}{1.2\textwidth}
+  \small\begin{enumerate}
     \item[3.3] Extract pixel values for each group and average
     \begin{itemize}
-      \item<1-> Pixels from each k-means cluster converted to points
-      \item<2-> PCLT to find mean values from points
+      \item Pixels from each k-means cluster converted to points
+      \item PCLT to find mean values from points
       \begin{itemize}
-        \item<2-> Produces .ref signature files
+        \item Produces .ref signature files
       \end{itemize}
     \end{itemize}
   \end{enumerate}
-  \visible<3->{\centering~Now we have crop signatures!}
+  \visible<2->{\centering~Now we have crop signatures!}
   \end{minipage}
 \column{0.55\linewidth}
   \begin{figure}
@@ -789,31 +789,31 @@ Top crops in Pellegrini, 2001 to 2005
 \end{columns}
 \end{frame}
 
-\begin{frame}{Pellegrini Ground Truth}
-\begin{table}
-  \centering
-  \caption{\parbox{4in}{\centering\Book{Summer 2014 Pellegrini Land Cover Classes}}}
-  \begin{tabular}{lSS}
-    \toprule
-    \Book{Cover Type} & \Book{Hectares} & \Book{Sample Points} \\
-    \midrule
-    Forested & 389541 & 247 \\
-    Other & 42229 & 22 \\
-    Corn & 41488 & 36 \\
-    Pasture & 35057 & 37 \\
-    Soy & 27498 & 24 \\
-    Poroto & 9539 & 7 \\
-    Nothing & 3057 & 3 \\
-    Sorghum & 1646 & 2 \\
-    \midrule
-    Unknown & 92248 & 17 \\
-    Omitted & 52052 & 5 \\
-    \midrule
-    \Book{Total} & 694346 & 400 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-\end{frame}
+%\begin{frame}{Pellegrini Ground Truth}
+%\begin{table}
+%  \centering
+%  \caption{\parbox{4in}{\centering\Book{Summer 2014 Pellegrini Land Cover Classes}}}
+%  \begin{tabular}{lSS}
+%    \toprule
+%    \Book{Cover Type} & \Book{Hectares} & \Book{Sample Points} \\
+%    \midrule
+%    Forested & 389541 & 247 \\
+%    Other & 42229 & 22 \\
+%    Corn & 41488 & 36 \\
+%    Pasture & 35057 & 37 \\
+%    Soy & 27498 & 24 \\
+%    Poroto & 9539 & 7 \\
+%    Nothing & 3057 & 3 \\
+%    Sorghum & 1646 & 2 \\
+%    \midrule
+%    Unknown & 92248 & 17 \\
+%    Omitted & 52052 & 5 \\
+%    \midrule
+%    \Book{Total} & 694346 & 400 \\
+%    \bottomrule
+%  \end{tabular}
+%\end{table}
+%\end{frame}
 
 \begin{frame}{Pellegrini Agriculture}
 \begin{table}
@@ -847,15 +847,6 @@ Top crops in Pellegrini, 2001 to 2005
   \resizebox{0.65\textwidth}{!}{\input{plots/allsigsKS.pgf}}
   %\caption{Kansas Crop Signatures}
   %Shown are the seven crop signatures extracted from the Kansas study site's TSI using the k-means clusters. Notice how all three corn signatures occur earlier in the year than the soy or sorghum signatures, but otherwise look similar to the soy signatures. The temporal separation assists with classification. The Soy\_1 signature is strange in appearance; it does not look anything like a typical soy signature. Over this date range, the Sorghum\_1 signature looses much of its downslope at the end of its growth.
-\end{figure}
-\end{frame}
-
-\begin{frame}{Strange Kansas Corn Signatures}
-\begin{figure}
-  \centering
-  \resizebox{0.7\textwidth}{!}{\input{plots/weirdsigs2.pgf}}
-  %\caption{Selected Examples of Strange Signatures from Pixels Labeled Corn in the CDL}
-  %Each of these signatures was extracted from a pixel labeled corn by the CDL that was not accurately classified in the Round 3 testing. The signatures of pixels 1, 2, 3, and 5 share features on a few key dates, but diverge on others. None of these four is remotely similar in appearance to corn. In fact, the two peaks, around DOY 97 and DOY 161, suggest some sort of double crop rotation. The only signature similar to corn is that of pixel 4, which only departs from the corn reference signature around DOY 257. After that date it sharply increases to an end-of-year peak, suggestive of winter wheat planting for the following year.
 \end{figure}
 \end{frame}
 
@@ -987,6 +978,23 @@ Top crops in Pellegrini, 2001 to 2005
 \end{figure}
 \end{frame}
 
+\subsection{Pellegrini Data}
+\begin{frame}{Pellegrini Ground Truth}
+\begin{columns}[onlytextwidth]
+\begin{column}{0.47\textwidth}
+  \begin{itemize}
+    \item 378 of 400 sample\\points were identified
+    \item Many additional\\fields were collected
+  \end{itemize}
+\end{column}
+\begin{column}{0.53\textwidth}
+  \begin{figure}
+    \includegraphics[width=1.0\textwidth]{Graphics/collecteddata.pdf}
+  \end{figure}
+\end{column}
+\end{columns}
+\end{frame}
+
 \begin{frame}{Pellegrini Classification}
 \begin{table}
   \scriptsize
@@ -1013,25 +1021,25 @@ Top crops in Pellegrini, 2001 to 2005
 \end{table}
 \end{frame}
 
-\begin{frame}{Pellegrini Classification}
-\begin{table}
-  \scriptsize
-  \centering
-  \caption{\parbox{4in}{\small\centering~Pellegrini Corn and Soy Confusion with\\Other Land Cover Classes}}
-  \begin{tabular}{lSSS[table-figures-decimal=2]SS[table-figures-decimal=2]}
-    \toprule
-    \multirow{2}{*}{\textbf{Land Cover}} & \multirow{2}{*}{\parbox{0.35in}{\raggedleft\textbf{Total Pixels}}} & \multirow{2}{*}{\parbox{0.53in}{\raggedleft\textbf{Confused as Corn}}} & \multirow{2}{*}{\parbox{0.5in}{\raggedleft\textbf{Percent of Total}}} & \multirow{2}{*}{\parbox{0.53in}{\raggedleft\textbf{Confused as Soy}}} & \multirow{2}{*}{\parbox{0.5in}{\raggedleft\textbf{Percent of Total}}} \\
-     & & & & \\
-    \midrule
-    Forested & 63978 & 194 & 0.30 & 26 & 0.04 \\
-    Other & 5393 & 306 & 5.67 & 322 & 5.97 \\
-    Pasture & 5252 & 396 & 7.54 & 50 & 0.95 \\
-    Poroto & 1369 & 303 & 22.13 & 59 & 4.31 \\
-    Nothing & 485 & 2 & 0.41 & 1 & 0.21 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-\end{frame}
+%\begin{frame}{Pellegrini Classification}
+%\begin{table}
+%  \scriptsize
+%  \centering
+%  \caption{\parbox{4in}{\small\centering~Pellegrini Corn and Soy Confusion with\\Other Land Cover Classes}}
+%  \begin{tabular}{lSSS[table-figures-decimal=2]SS[table-figures-decimal=2]}
+%    \toprule
+%    \multirow{2}{*}{\textbf{Land Cover}} & \multirow{2}{*}{\parbox{0.35in}{\raggedleft\textbf{Total Pixels}}} & \multirow{2}{*}{\parbox{0.53in}{\raggedleft\textbf{Confused as Corn}}} & \multirow{2}{*}{\parbox{0.5in}{\raggedleft\textbf{Percent of Total}}} & \multirow{2}{*}{\parbox{0.53in}{\raggedleft\textbf{Confused as Soy}}} & \multirow{2}{*}{\parbox{0.5in}{\raggedleft\textbf{Percent of Total}}} \\
+%     & & & & \\
+%    \midrule
+%    Forested & 63978 & 194 & 0.30 & 26 & 0.04 \\
+%    Other & 5393 & 306 & 5.67 & 322 & 5.97 \\
+%    Pasture & 5252 & 396 & 7.54 & 50 & 0.95 \\
+%    Poroto & 1369 & 303 & 22.13 & 59 & 4.31 \\
+%    Nothing & 485 & 2 & 0.41 & 1 & 0.21 \\
+%    \bottomrule
+%  \end{tabular}
+%\end{table}
+%\end{frame}
 
 \begin{frame}{Pellegrini Classification}
 \begin{figure}
@@ -1194,8 +1202,13 @@ How is classification accuracy affected by:
 
 
 \subsection{Weird Crop Signatures}
-\begin{frame}{Weird Crop Signatures}
-Hahahahah
+\begin{frame}{Strange Kansas Corn Signatures}
+\begin{figure}
+  \centering
+  \resizebox{0.7\textwidth}{!}{\input{plots/weirdsigs2.pgf}}
+  %\caption{Selected Examples of Strange Signatures from Pixels Labeled Corn in the CDL}
+  %Each of these signatures was extracted from a pixel labeled corn by the CDL that was not accurately classified in the Round 3 testing. The signatures of pixels 1, 2, 3, and 5 share features on a few key dates, but diverge on others. None of these four is remotely similar in appearance to corn. In fact, the two peaks, around DOY 97 and DOY 161, suggest some sort of double crop rotation. The only signature similar to corn is that of pixel 4, which only departs from the corn reference signature around DOY 257. After that date it sharply increases to an end-of-year peak, suggestive of winter wheat planting for the following year.
+\end{figure}
 \end{frame}
 
 
